@@ -5,7 +5,7 @@ const catchAsync = require('../utils/catchAsync');
 const User = require('../models/userModel');
 const AppError = require('../utils/appError');
 
-/* === === utils === === */
+// ** Utilities
 
 const signToken = (id) =>
   jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -35,7 +35,7 @@ const createSendToken = (user, statusCode, res) => {
   });
 };
 
-/* === === middlewares === === */
+// ** Middlewares
 
 exports.protect = catchAsync(async (req, res, next) => {
   // get the token
@@ -81,7 +81,7 @@ exports.restrictTo = (...roles) => (req, res, next) => {
   next();
 };
 
-/* === === route handlers === === */
+// ** Route handlers
 
 exports.signup = catchAsync(async (req, res, next) => {
   const { name, email, password, confirmPassword } = req.body;

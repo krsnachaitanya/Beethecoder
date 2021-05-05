@@ -4,19 +4,32 @@ const {
   signup,
   signin,
   protect,
-  // restrictTo,
+  restrictTo,
 } = require('../controllers/authenticationController');
-const { getMe, getUser } = require('../controllers/userController');
+const {
+  getMe,
+  getUser,
+  getAllUsers,
+  updateMe,
+  userPurchaseList,
+} = require('../controllers/userController');
 
 const router = express.Router();
 
 router.post('/signup', signup);
 router.post('/signin', signin);
 
-// Protected routes
+// ** Protect routes
 router.use(protect);
 
 router.get('/me', getMe, getUser);
+router.patch('/updateMe', updateMe);
 router.post('/signout', signout);
+router.get('/orders', userPurchaseList);
+
+// ** Admin routes
+router.use(restrictTo('admin'));
+
+router.route('/').get(getAllUsers);
 
 module.exports = router;
