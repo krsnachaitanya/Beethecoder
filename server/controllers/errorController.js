@@ -30,11 +30,14 @@ const handlecastErrorDB = (err) => {
   return new AppError(message, 400);
 };
 
-const handleDuplicateFieldsDB = (err) =>
-  new AppError(
-    `Tour name '${err.keyValue.name}' is not available. Try again with a different name`,
+const handleDuplicateFieldsDB = (err) => {
+  const errKey = Object.keys(err.keyValue)[0];
+  const errValue = Object.values(err.keyValue)[0];
+  return new AppError(
+    `'${errKey}' with a value of '${errValue}' already exists. Try again with a different value.`,
     400
   );
+};
 
 const handleValidationErrorDB = (err) => new AppError(err.message, 400);
 
@@ -45,6 +48,7 @@ const handleJWTExpiredError = () =>
   new AppError('Token expired! Please login again.', 401);
 
 const globalErrorHandler = (err, req, res, next) => {
+  // console.log(err);
   err.statusCode = err.statusCode || 500;
   err.status = err.status || 'error';
 
@@ -59,7 +63,7 @@ const globalErrorHandler = (err, req, res, next) => {
 
     if (error.code === 11000) error = handleDuplicateFieldsDB(error);
 
-    if (error._message === 'Validation failed')
+    if (/validation failed/i.test(error._message))
       error = handleValidationErrorDB(error);
 
     if (error.name === 'JsonWebTokenError') error = handleJWTError();

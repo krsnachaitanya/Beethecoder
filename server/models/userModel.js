@@ -1,4 +1,4 @@
-const crypto = require('crypto');
+// const crypto = require('crypto');
 const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
@@ -75,6 +75,17 @@ userSchema.methods.isPasswordCorrect = async function (
   userPassword
 ) {
   return await bcrypt.compare(currentPassword, userPassword);
+};
+
+userSchema.methods.isPasswordChanged = function (jwtIssuedAt) {
+  if (this.passwordChangedAt) {
+    const passwordChangedAt = parseInt(
+      this.passwordChangedAt.getTime() / 1000,
+      10
+    );
+    return jwtIssuedAt < passwordChangedAt;
+  }
+  return false;
 };
 
 const User = mongoose.model('User', userSchema);
