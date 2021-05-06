@@ -5,6 +5,7 @@ const globalErrorHandler = require('./controllers/errorController');
 const AppError = require('./utils/appError');
 const userRouter = require('./routes/userRoutes');
 const categoryRouter = require('./routes/categoryRoutes');
+const productRouter = require('./routes/productRoutes');
 
 const app = express();
 
@@ -17,6 +18,7 @@ app.use(express.json({ limit: '10kb' }));
 // mounting routes
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/categories', categoryRouter);
+app.use('/api/v1/products', productRouter);
 
 // error handler for undefined routes
 app.all('*', (req, res, next) => {
