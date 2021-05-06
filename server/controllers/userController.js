@@ -75,7 +75,7 @@ exports.userPurchaseList = catchAsync(async (req, res, next) => {
 });
 
 exports.pushOrderInPurchaseList = catchAsync(async (req, res, next) => {
-  let purchases = [];
+  const purchases = [];
   req.body.order.products.forEach(
     (product) =>
       purchases.push[
