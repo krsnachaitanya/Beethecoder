@@ -1,5 +1,6 @@
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
+const APIFeatures = require('../utils/apiFeatures');
 
 // ** Utilities
 
@@ -13,18 +14,28 @@ const jsonSuccessResponse = (res, status, data, message) =>
     status: 'success',
     message: message || undefined,
     results: data.length > 1 ? data.length : undefined,
-
     data: { documents: data },
   });
 
 // ** Handler Factory Functions
 
 // * Get all the documents from the collection
-exports.getAll = (Model) =>
+exports.getAll = (Model, populateOptions) =>
   catchAsync(async (req, res, next) => {
-    const doc = await Model.find();
+    // build query
+    let popQuery = Model.find();
+    if (populateOptions) popQuery = popQuery.populate(populateOptions);
+    const features = new APIFeatures(popQuery, req.query)
+      .filter()
+      .sortBy()
+      .limitFields()
+      .paginate();
 
-    jsonSuccessResponse(res, 200, doc);
+    // execute query
+    const data = await features.query;
+
+    // resopnse
+    jsonSuccessResponse(res, 200, data);
   });
 
 // * Create a document in a collection
@@ -38,9 +49,13 @@ exports.createOne = (Model) =>
   });
 
 // * Get a document by ID param
-exports.getOne = (Model) =>
+exports.getOne = (Model, populateOptions) =>
   catchAsync(async (req, res, next) => {
-    const doc = await Model.findById(req.params.id);
+    let query = Model.findById(req.params.id);
+
+    if (populateOptions) query = query.populate(populateOptions);
+
+    const doc = await query;
 
     if (!doc) return next(noDocFound);
 

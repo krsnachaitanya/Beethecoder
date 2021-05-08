@@ -44,14 +44,18 @@ const parseForm = (req) => {
 // ** Route Handlers
 
 exports.createProduct = catchAsync(async (req, res, next) => {
+  // get data from the form
   const doc = await parseForm(req);
 
+  // send error if there is no data
   if (!doc) return next(new AppError(('Creating product failed.', 400)));
 
+  // check if photo exists and read the data from the path
   if (doc.photo) {
     doc.photo.data = await readFilePromise(doc.photo.filePath);
   }
 
+  // create Product
   const newProduct = await Product.create(doc);
 
   if (!newProduct) return next(new AppError(('Creating product failed.', 400)));
@@ -83,6 +87,6 @@ exports.updateProduct = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.getAllProducts = getAll(Product);
-exports.getProduct = getOne(Product);
+exports.getAllProducts = getAll(Product, { path: 'category', select: '-__v' });
+exports.getProduct = getOne(Product, { path: 'category', select: '-__v' });
 exports.deleteProduct = deleteOne(Product);

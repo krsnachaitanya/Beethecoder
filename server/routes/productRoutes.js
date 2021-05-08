@@ -14,10 +14,13 @@ const {
 
 const router = express.Router();
 
+router.get('/', getAllProducts);
+router.get('/:id', getProduct);
+
 router.use(protect);
 router.use(restrictTo('admin'));
 
-router.route('/').get(getAllProducts).post(createProduct);
-router.route('/:id').get(getProduct).patch(updateProduct).delete(deleteProduct);
+router.post('/', createProduct);
+router.route('/:id').patch(updateProduct).delete(deleteProduct);
 
 module.exports = router;
