@@ -40,5 +40,20 @@ const productSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+productSchema.pre(
+  /find\b|findOne\b|findOneAndUpdate\b|!findOneAndDelete\b/,
+  function (next) {
+    this.select('-photo -__v -updatedAt -createdAt -description -sold');
+    next();
+  }
+);
+productSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: 'category',
+    select: '-__v -updatedAt -createdAt',
+  });
+  next();
+});
+
 const Product = mongoose.model('Product', productSchema);
 module.exports = Product;

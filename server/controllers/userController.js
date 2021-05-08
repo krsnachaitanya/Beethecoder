@@ -2,6 +2,7 @@ const User = require('../models/userModel');
 const Order = require('../models/orderModel');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
+const { getAll, getOne } = require('./handlerFactory');
 
 // ** Utilities
 
@@ -12,17 +13,6 @@ const filterObj = (obj, ...allowedFields) => {
   });
   return newObj;
 };
-
-exports.getUser = catchAsync(async (req, res, next) => {
-  const user = await User.findById(req.params.id);
-
-  if (!user) return next(new AppError('User not found', 404));
-
-  res.status(200).json({
-    status: 'success',
-    data: { user },
-  });
-});
 
 // ** Middlewares
 
@@ -101,12 +91,5 @@ exports.pushOrderInPurchaseList = catchAsync(async (req, res, next) => {
   next();
 });
 
-exports.getAllUsers = catchAsync(async (req, res, next) => {
-  const users = await User.find();
-
-  res.status(200).json({
-    status: 'success',
-    results: users.length,
-    data: { users },
-  });
-});
+exports.getAllUsers = getAll(User);
+exports.getUser = getOne(User);

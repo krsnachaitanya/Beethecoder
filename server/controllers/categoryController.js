@@ -10,7 +10,7 @@ const {
 } = require('./handlerFactory');
 
 exports.getAllCategories = getAll(Category);
-exports.createNewCategory = createOne(Category);
+exports.createCategory = createOne(Category);
 exports.getCategory = getOne(Category);
 exports.updateCategory = updateOne(Category);
 exports.deleteCategory = deleteOne(Category);
