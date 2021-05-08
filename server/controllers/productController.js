@@ -87,6 +87,16 @@ exports.updateProduct = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.updateStock = catchAsync(async (req, res, next) => {
+  const productStockUpdate = req.body.order.products.map((product) => ({
+    updateOne: {
+      filter: { _id: product._id },
+      update: { $inc: { stock: -product.count, sold: +product.count } },
+    },
+  }));
+  const data = await Product.bulkWrite(productStockUpdate, {});
+});
+
 exports.getAllProducts = getAll(Product, { path: 'category', select: '-__v' });
 exports.getProduct = getOne(Product, { path: 'category', select: '-__v' });
 exports.deleteProduct = deleteOne(Product);
