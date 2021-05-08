@@ -60,10 +60,7 @@ exports.createProduct = catchAsync(async (req, res, next) => {
 
   if (!newProduct) return next(new AppError(('Creating product failed.', 400)));
 
-  res.status(200).json({
-    status: 'success',
-    data: { Product: newProduct },
-  });
+  res.status(200).json({ status: 'success', data: { Product: newProduct } });
 });
 
 exports.updateProduct = catchAsync(async (req, res, next) => {
@@ -81,10 +78,7 @@ exports.updateProduct = catchAsync(async (req, res, next) => {
 
   if (!product) return next(new AppError(('Updating product failed.', 400)));
 
-  res.status(200).json({
-    status: 'success',
-    data: { Product: product },
-  });
+  res.status(200).json({ status: 'success', data: { Product: product } });
 });
 
 exports.updateStock = catchAsync(async (req, res, next) => {
@@ -95,6 +89,8 @@ exports.updateStock = catchAsync(async (req, res, next) => {
     },
   }));
   const data = await Product.bulkWrite(productStockUpdate, {});
+  if (!data) return next(new AppError(('Updating product failed.', 400)));
+  next();
 });
 
 exports.getAllProducts = getAll(Product, { path: 'category', select: '-__v' });

@@ -16,10 +16,16 @@ const orderSchema = new mongoose.Schema(
     transactionId: {},
     amount: Number,
     address: String,
+    status: {
+      type: String,
+      default: 'received',
+      enum: ['cancelled', 'delivered', 'shipped', 'processing', 'received'],
+    },
     updated: Date,
     user: {
       type: mongoose.Schema.ObjectId,
       ref: 'User',
+      required: [true, 'You can not order with out user'],
     },
   },
   { timestamps: true }
