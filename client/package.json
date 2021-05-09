@@ -16,8 +16,10 @@
     "web-vitals": "^1.1.2"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build:css": "postcss src/assets/tailwind.css -o src/assets/styles.css",
+    "watch:css": "postcss src/assets/tailwind.css -o src/assets/styles.css",
+    "start": "npm run watch:css & react-scripts start",
+    "build": "npm run build:css react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint ./",
@@ -43,7 +45,9 @@
     ]
   },
   "devDependencies": {
+    "autoprefixer": "^9.8.6",
     "babel-eslint": "^10.1.0",
+    "babel-plugin-macros": "^2.8.0",
     "cross-env": "^7.0.3",
     "eslint": "^7.26.0",
     "eslint-config-airbnb": "^18.2.1",
@@ -58,8 +62,11 @@
     "esm": "^3.2.25",
     "husky": "^6.0.0",
     "lint-staged": "^11.0.0",
+    "postcss": "^7.0.35",
     "prettier": "^2.2.1",
-    "pretty-quick": "^3.1.0"
+    "pretty-quick": "^3.1.0",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.1.2",
+    "twin.macro": "^2.4.1"
   },
   "lint-staged": {
     "*.js": "eslint"
