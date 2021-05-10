@@ -18,8 +18,8 @@ const Base = ({
     </div>
     <footer>
       <div>
-        <h4></h4>
-        <button></button>
+        <h4>If you got any questions, feel free to reach out.</h4>
+        <button>Contact Us</button>
       </div>
       <div>
         <span></span>
