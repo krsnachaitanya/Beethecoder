@@ -7,7 +7,6 @@ import Base from './Base';
 const Heading = styled.h1`
   ${tw`text-8xl font-extralight`}
 `;
-
 const Home = () => {
   return (
     <Base>

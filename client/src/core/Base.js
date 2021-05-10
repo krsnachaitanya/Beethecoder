@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import NavBar from '../core/NavBar';
 
 const Base = ({
   title = 'My Title',
@@ -7,6 +8,7 @@ const Base = ({
   children,
 }) => (
   <div>
+    <NavBar />
     <div>
       <div>
         <h2>{title}</h2>
