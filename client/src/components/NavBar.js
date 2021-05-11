@@ -24,9 +24,9 @@ const navigation = [
   { name: 'Cart', href: '/cart' },
   { name: 'Dashboard', href: '/dashboard' },
   { name: 'Admin Dashboard', href: '/admin/dashboard' },
-  { name: 'Signup', href: '/signup' },
-  { name: 'Signin', href: '/signin' },
-  { name: 'Signout', href: '/singout' },
+  { name: 'Signup', href: '/users/signup' },
+  { name: 'Signin', href: '/users/signin' },
+  { name: 'Signout', href: '/users/singout' },
 ];
 
 const NavBar = ({ history }) => {

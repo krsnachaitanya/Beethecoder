@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const morgan = require('morgan');
 
 const globalErrorHandler = require('./controllers/errorController');
@@ -9,6 +10,9 @@ const productRouter = require('./routes/productRoutes');
 const orderRouter = require('./routes/orderRoutes');
 
 const app = express();
+
+// * CORS
+app.use(cors());
 
 // * Logging request information
 if (process.env.NODE_ENV !== 'production') app.use(morgan('dev'));
