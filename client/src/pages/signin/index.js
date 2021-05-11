@@ -1,11 +1,12 @@
 import React from 'react';
 import { Form, FormInput, FormWrapper } from '../../components/FormStyles';
+import PageTitle from '../../components/PageTitle';
 
 const Signin = () => {
   return (
     <FormWrapper>
       <div>
-        <h2>Sign in to your account</h2>
+        <PageTitle title="Sign In" description="Welcome Back. Log in here." />
 
         <Form action="#" method="POST">
           <input type="hidden" name="remember" defaultValue="true" />

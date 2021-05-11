@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import tw from 'twin.macro';
 
 export const FormWrapper = styled.div`
-  ${tw`flex items-center justify-center `}
+  ${tw`self-center`}
   div {
     ${tw``}
   }
@@ -10,7 +10,7 @@ export const FormWrapper = styled.div`
 
 export const Form = styled.form`
   ${tw``}
-  div {
+  & > div {
     ${tw` flex flex-col gap-4`}
   }
 `;

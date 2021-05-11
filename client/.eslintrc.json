@@ -4,9 +4,11 @@
     "es2021": true
   },
   "extends": [
-    "plugin:react/recommended",
-    "standard",
-    "plugin:prettier/recommended"
+    // "plugin:react/recommended",
+    // "standard",
+    // "plugin:prettier/recommended"
+    "eslint:recommended",
+    "plugin:react/recommended"
   ],
   "parserOptions": {
     "ecmaFeatures": {
@@ -17,8 +19,7 @@
   },
   "plugins": ["react"],
   "rules": {
-    "react/react-in-jsx-scope": 0,
-    "no-unused-vars": [1]
-    // "react/prop-types": "off",
+    "no-unused-vars": [1],
+    "react/prop-types": [0]
   }
 }

@@ -6,8 +6,16 @@ const GlobalStyles = createGlobalStyle`
    font-family: 'Helvetica';
    ${tw`box-border m-0 text-white bg-gray-800`}
   }
+  
+  #root {
+  ${tw`flex flex-col min-h-screen `}
+  & > :nth-child(2) {
+    ${tw`flex-auto `}
+  }
+}
+
   button{
-    ${tw`p-4 text-base bg-yellow-400 border-none cursor-pointer`}
+    ${tw`px-5 py-2 text-base bg-green-500 border-none rounded-md cursor-pointer hover:bg-green-600`}
   }
   `;
 
