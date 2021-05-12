@@ -9,6 +9,8 @@ import Dashboard from './pages/dashboard';
 import AdminDashboard from './pages/admin/dashboard';
 
 import ProtectedRoute from './utils/auth/ProtectedRoute';
+import Categories from './pages/admin/categories';
+import createCategory from './pages/admin/categories/createCategory';
 
 const Routes = () => {
   return (
@@ -28,6 +30,12 @@ const Routes = () => {
           path="/admin/dashboard"
           exact
           component={AdminDashboard}
+        />
+        <ProtectedRoute path="/admin/categories" exact component={Categories} />
+        <ProtectedRoute
+          path="/create-category"
+          exact
+          component={createCategory}
         />
       </Switch>
       <Footer />

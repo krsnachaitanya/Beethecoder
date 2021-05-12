@@ -39,9 +39,9 @@ const NavBar = ({ history }) => {
     } else {
       return [
         { name: 'Dashboard', href: '/admin/dashboard' },
-        { name: 'Products', href: '/' },
-        { name: 'Categories', href: '/cart' },
-        { name: 'Orders', href: '/cart' },
+        { name: 'Products', href: '/products' },
+        { name: 'Categories', href: '/admin/categories' },
+        { name: 'Orders', href: '/orders' },
       ];
     }
   };
