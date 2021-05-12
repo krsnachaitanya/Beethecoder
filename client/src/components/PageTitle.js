@@ -3,15 +3,15 @@ import styled from 'styled-components';
 import tw from 'twin.macro';
 
 const PageTitleStyles = styled.div`
-  ${tw`mt-16 mb-20 text-center`}
+  ${tw`my-6 text-center`}
   & > h2 {
-    ${tw`text-4xl leading-3 font-extralight`}
+    ${tw`text-4xl font-semibold leading-3`}
   }
   & > p {
   }
 `;
 
-const PageTitle = ({ title = 'Title', description = 'Description' }) => {
+const PageTitle = ({ title = 'Title', description }) => {
   return (
     <PageTitleStyles>
       <h2>{title}</h2>

@@ -4,7 +4,7 @@ import PageTitle from '../../components/PageTitle';
 const Dashboard = () => {
   return (
     <div>
-      <PageTitle title="Dashboard" />
+      <PageTitle title="Dashboard" description="User Dashboard" />
     </div>
   );
 };

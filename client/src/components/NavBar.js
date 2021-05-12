@@ -1,37 +1,54 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Link, withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import tw from 'twin.macro';
 import { isAuthenticated, signout } from '../utils/auth';
-// import { MenuIcon, XIcon } from '@heroicons/react/outline';
 
 const NavBarStyles = styled.nav`
-  ${tw`bg-gray-800`}
+  ${tw`pb-4 mx-8 my-4 border-0 border-b border-gray-500 border-solid`}
   & {
     ul {
-      ${tw`flex gap-8 list-none`}
+      ${tw`flex gap-4 list-none`}
     }
   }
 `;
 
 const NavLink = styled(Link)`
-  ${tw`text-white no-underline hover:text-green-500`}
-  ${(props) => props.isactive && tw`text-green-500`}
+  ${tw`p-4 text-green-500 no-underline rounded-md hover:text-white`}
+  ${(props) => props.isactive && tw`text-white bg-gray-900 shadow-md`}
 `;
 
-const navigation = [
-  { name: 'Home', href: '/' },
-  { name: 'Cart', href: '/cart' },
-  { name: 'Dashboard', href: '/dashboard' },
-  { name: 'Admin Dashboard', href: '/admin/dashboard' },
-];
+const SignOut = styled.span`
+  ${tw`text-green-500 hover:text-white`}
+`;
 
 const NavBar = ({ history }) => {
+  const navigation = () => {
+    if (isAuthenticated() === false)
+      return [
+        { name: 'Home', href: '/' },
+        { name: 'Sign In', href: '/users/signin' },
+        { name: 'Sign Up', href: '/users/signup' },
+      ];
+    if (isAuthenticated().data.user.role === 'user') {
+      return [
+        { name: 'Home', href: '/' },
+        { name: 'Dashboard', href: '/dashboard' },
+        { name: 'Cart', href: '/cart' },
+      ];
+    } else {
+      return [
+        { name: 'Dashboard', href: '/admin/dashboard' },
+        { name: 'Products', href: '/' },
+        { name: 'Categories', href: '/cart' },
+        { name: 'Orders', href: '/cart' },
+      ];
+    }
+  };
   return (
     <NavBarStyles as="nav">
       <ul>
-        {navigation.map((link, index) => (
+        {navigation().map((link, index) => (
           <li key={index}>
             <NavLink
               to={link.href}
@@ -42,43 +59,16 @@ const NavBar = ({ history }) => {
           </li>
         ))}
 
-        {isAuthenticated() ? (
+        {isAuthenticated() && (
           <li>
-            <span onClick={() => signout(() => history.push('/'))}>
+            <SignOut onClick={() => signout(() => history.push('/'))}>
               Sign Out
-            </span>
+            </SignOut>
           </li>
-        ) : (
-          <>
-            <li>
-              <NavLink
-                to="/users/signin"
-                isactive={
-                  history.location.pathname === '/users/signin' ? 1 : undefined
-                }
-              >
-                Sign In
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/users/signup"
-                isactive={
-                  history.location.pathname === '/users/signup' ? 1 : undefined
-                }
-              >
-                Sign Up
-              </NavLink>
-            </li>
-          </>
         )}
       </ul>
     </NavBarStyles>
   );
-};
-
-NavBar.propTypes = {
-  history: PropTypes.object,
 };
 
 export default withRouter(NavBar);
