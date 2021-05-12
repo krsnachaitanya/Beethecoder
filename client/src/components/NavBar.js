@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Link, withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import tw from 'twin.macro';
+import { isAuthenticated, signout } from '../utils/auth';
 // import { MenuIcon, XIcon } from '@heroicons/react/outline';
 
 const NavBarStyles = styled.nav`
@@ -24,9 +25,6 @@ const navigation = [
   { name: 'Cart', href: '/cart' },
   { name: 'Dashboard', href: '/dashboard' },
   { name: 'Admin Dashboard', href: '/admin/dashboard' },
-  { name: 'Signup', href: '/users/signup' },
-  { name: 'Signin', href: '/users/signin' },
-  { name: 'Signout', href: '/users/singout' },
 ];
 
 const NavBar = ({ history }) => {
@@ -43,6 +41,37 @@ const NavBar = ({ history }) => {
             </NavLink>
           </li>
         ))}
+
+        {isAuthenticated() ? (
+          <li>
+            <span onClick={() => signout(() => history.push('/'))}>
+              Sign Out
+            </span>
+          </li>
+        ) : (
+          <>
+            <li>
+              <NavLink
+                to="/users/signin"
+                isactive={
+                  history.location.pathname === '/users/signin' ? 1 : undefined
+                }
+              >
+                Sign In
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/users/signup"
+                isactive={
+                  history.location.pathname === '/users/signup' ? 1 : undefined
+                }
+              >
+                Sign Up
+              </NavLink>
+            </li>
+          </>
+        )}
       </ul>
     </NavBarStyles>
   );

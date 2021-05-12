@@ -44,10 +44,9 @@ export const signout = async (next) => {
     if (typeof window !== 'undefined') {
       localStorage.removeItem('jwt');
       next();
-      await fetch(`${api}/users/signout`, {
-        method: 'GET',
-      });
-      console.log('Signout Success');
+      // await fetch(`${api}/users/signout`, {
+      //   method: 'POST',
+      // });
     }
   } catch (err) {
     return console.log(err);

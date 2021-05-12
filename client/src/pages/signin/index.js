@@ -1,30 +1,100 @@
 /* eslint-disable react/no-unknown-property */
 import React, { useState } from 'react';
+import { Redirect } from 'react-router-dom';
+import Alert from '../../components/alert';
 import {
   ForgotPassword,
   Form,
   FormInput,
   FormWrapper,
+  SubmitButton,
   SubmitContainter,
 } from '../../components/FormStyles';
 import PageTitle from '../../components/PageTitle';
+import { signin, authenticate, isAuthenticated } from '../../utils/auth';
 
 const Signin = () => {
   const [values, setValues] = useState({
     email: '',
     password: '',
-    error: '',
-    success: false,
+    status: '',
+    message: '',
+    loading: false,
+    didRedirect: false,
   });
+  const [showAlert, setShowAlert] = useState(false);
 
-  // const { email, password, error, success } = values;
+  const { email, password, status, message, didRedirect } = values;
+  const { user } = isAuthenticated;
 
   const handleChange = (name) => (event) => {
-    setValues({ ...values, error: false, [name]: event.target.value });
+    setValues({ ...values, [name]: event.target.value });
+  };
+
+  const onSubmit = async (event) => {
+    try {
+      event.preventDefault();
+      setValues({
+        ...values,
+        loading: true,
+        status: 'Loading...',
+        message: 'Please wait...',
+      });
+      const data = await signin({ email, password });
+      if (data.status !== 'success') {
+        setValues({
+          ...values,
+          status: data.status,
+          message: data.message,
+          loading: false,
+        });
+        setShowAlert(true);
+      } else {
+        authenticate(data, () => {
+          setValues({
+            email: '',
+            password: '',
+            status: 'success',
+            message: 'Signed in successfully.',
+            didRedirect: false,
+            loading: false,
+          });
+          setShowAlert(true);
+        });
+      }
+    } catch (err) {
+      setValues({
+        ...values,
+        status: 'Signed in failed!',
+        message: 'Please try again.',
+      });
+      setShowAlert(true);
+    }
+  };
+
+  const performRedirect = () => {
+    if (didRedirect) {
+      if (user && user.role === 'admin') {
+        return <p>Redirect to admin</p>;
+      } else {
+        return <p>Redirect to user profile</p>;
+      }
+    }
+    if (isAuthenticated()) {
+      return <Redirect to="/" />;
+    }
   };
 
   return (
     <FormWrapper>
+      {showAlert && (
+        <Alert
+          status={status}
+          message={message}
+          showAlert={showAlert}
+          handleAlert={() => setShowAlert(false)}
+        />
+      )}
       <PageTitle
         title="Sign In"
         description="Welcome back! Sign in to your account."
@@ -41,11 +111,11 @@ const Signin = () => {
             required
             placeholder="Email address"
             onChange={handleChange('email')}
+            value={email}
           />
         </FormInput>
         <FormInput>
           <label htmlFor="password">Password</label>
-
           <input
             autoComplete="true"
             id="password"
@@ -54,13 +124,21 @@ const Signin = () => {
             required
             placeholder="Password"
             onChange={handleChange('password')}
+            value={password}
           />
         </FormInput>
         <SubmitContainter>
-          <button type="submit">Sign In</button>
+          <SubmitButton
+            disabled={email === '' || password === ''}
+            onClick={onSubmit}
+            type="submit"
+          >
+            Sign In
+          </SubmitButton>
           <ForgotPassword href="#">Forgot Password?</ForgotPassword>
         </SubmitContainter>
       </Form>
+      {performRedirect()}
     </FormWrapper>
   );
 };
