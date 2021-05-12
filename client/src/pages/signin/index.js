@@ -25,7 +25,6 @@ const Signin = () => {
   const [showAlert, setShowAlert] = useState(false);
 
   const { email, password, status, message, didRedirect } = values;
-  const { user } = isAuthenticated;
 
   const handleChange = (name) => (event) => {
     setValues({ ...values, [name]: event.target.value });
@@ -54,12 +53,9 @@ const Signin = () => {
           setValues({
             email: '',
             password: '',
-            status: 'success',
-            message: 'Signed in successfully.',
-            didRedirect: false,
+            didRedirect: true,
             loading: false,
           });
-          setShowAlert(true);
         });
       }
     } catch (err) {
@@ -74,10 +70,10 @@ const Signin = () => {
 
   const performRedirect = () => {
     if (didRedirect) {
-      if (user && user.role === 'admin') {
-        return <p>Redirect to admin</p>;
+      if (isAuthenticated() && isAuthenticated().data.user.role === 'admin') {
+        return <Redirect to="/admin/dashboard" />;
       } else {
-        return <p>Redirect to user profile</p>;
+        return <Redirect to="/dashboard" />;
       }
     }
     if (isAuthenticated()) {

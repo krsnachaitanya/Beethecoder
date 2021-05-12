@@ -2,16 +2,20 @@ import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { isAuthenticated } from '.';
 
-const AdminRoute = ({ component: Component, ...rest }) => {
+const ProtectedRoute = ({
+  component: Component,
+  restrictTo = 'admin',
+  ...rest
+}) => {
   return (
     <Route
       {...rest}
       render={(props) =>
-        isAuthenticated() && isAuthenticated().user.role === 'admin' ? (
+        isAuthenticated() && isAuthenticated().data.user.role === restrictTo ? (
           <Component {...props} />
         ) : (
           <Redirect
-            to={{ pathname: '/users/signin', state: { from: props.location } }}
+            to={{ pathname: '/users/signin', state: { form: props.location } }}
           />
         )
       }
@@ -19,4 +23,4 @@ const AdminRoute = ({ component: Component, ...rest }) => {
   );
 };
 
-export default AdminRoute;
+export default ProtectedRoute;
