@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Alert from '../../../components/alert';
 import DashboardMenu from '../../../components/DashboardMenu';
 import {
@@ -9,6 +9,8 @@ import {
   SubmitContainter,
   Wrapper,
 } from '../../../components/form/FormStyles';
+import { getAllDocs } from '../../../utils/admin/adminapicall';
+import { isAuthenticated } from '../../../utils/auth';
 import productMenu from './productMenu';
 
 const CreateProduct = () => {
@@ -17,15 +19,64 @@ const CreateProduct = () => {
     description: '',
     price: '',
     stock: '',
+    image: '',
+    category: '',
+    categories: [],
+    loading: false,
+    createdProduct: '',
+    didRedirect: false,
+    formData: '',
   });
   const [status, setStatus] = useState('');
   const [message, setMessage] = useState('');
   const [showAlert, setShowAlert] = useState(false);
 
-  const { name, description, price, stock } = values;
+  const {
+    name,
+    description,
+    price,
+    stock,
+    image,
+    category,
+    categories,
+    loading,
+    createdProduct,
+    didRedirect,
+    formData,
+  } = values;
+
+  const preload = async () => {
+    try {
+      const data = await getAllDocs({
+        token: isAuthenticated().token,
+        query: '/categories',
+      });
+      if (data.status !== 'success') {
+        setStatus(data.status);
+        setMessage(data.message);
+        setShowAlert(true);
+      } else {
+        setValues({
+          ...values,
+          categories: data.data.documents,
+          formData: new FormData(),
+        });
+      }
+    } catch (error) {
+      setStatus('error');
+      setMessage(error.message);
+      setShowAlert(true);
+    }
+  };
+
+  useEffect(() => {
+    preload();
+  }, []);
 
   const handleChange = (name) => (event) => {
-    setValues({ ...values, [name]: event.target.value });
+    const value = name === 'image' ? event.target.file[0] : event.target.value;
+    formData.set(name, value);
+    setValues({ ...values, [name]: value });
   };
 
   const onSubmit = (event) => {
@@ -52,7 +103,7 @@ const CreateProduct = () => {
               type="text"
               required
               placeholder="Product Name"
-              onChange={handleChange}
+              onChange={handleChange('name')}
               value={name}
             />
           </FormInput>
@@ -64,32 +115,41 @@ const CreateProduct = () => {
               type="file"
               placeholder="Add an image"
               accept="image"
-              onChange={handleChange}
+              onChange={handleChange('image')}
+              value={image}
             />
           </FormInput>
           <FormInput>
-            <label htmlFor="collection">Collection</label>
-            <input
-              id="collection"
-              name="collection"
+            <label htmlFor="category">Category</label>
+            <select
+              id="category"
+              name="category"
               type="text"
               required
-              placeholder="Collection"
-              onChange={handleChange}
-              value={name}
-            />
+              placeholder="category"
+              onChange={handleChange('category')}
+              value={category}
+            >
+              <option>Select Category</option>
+              {categories &&
+                categories.map((category, i) => (
+                  <option key={i} value={category._id}>
+                    {category.name}
+                  </option>
+                ))}
+            </select>
           </FormInput>
           <FormInput>
             <label htmlFor="description">Description</label>
-            <input
+            <textarea
               id="description"
               name="description"
               type="text"
               required
               placeholder="Description"
-              onChange={handleChange}
-              value={name}
-            />
+              onChange={handleChange('description')}
+              value={description}
+            ></textarea>
           </FormInput>
           <FormInput>
             <label htmlFor="price">Price</label>
@@ -98,9 +158,9 @@ const CreateProduct = () => {
               name="price"
               type="number"
               required
-              placeholder="price"
-              onChange={handleChange}
-              value={name}
+              placeholder="Price"
+              onChange={handleChange('price')}
+              value={price}
             />
           </FormInput>
           <FormInput>
@@ -110,9 +170,9 @@ const CreateProduct = () => {
               name="stock"
               type="number"
               required
-              placeholder="stock"
-              onChange={handleChange}
-              value={name}
+              placeholder="Stock"
+              onChange={handleChange('stock')}
+              value={stock}
             />
           </FormInput>
           <SubmitContainter>

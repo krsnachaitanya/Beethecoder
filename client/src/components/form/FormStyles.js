@@ -7,7 +7,7 @@ export const FormWrapper = styled.div`
 `;
 
 export const Form = styled.form`
-  ${tw`relative max-w-xs px-8 pt-6 pb-8 bg-gray-700 rounded shadow-md`}
+  ${tw`relative max-w-lg px-8 pt-6 pb-8 bg-gray-700 rounded shadow-md`}
 `;
 
 export const FormHeader = styled.div`
@@ -24,11 +24,16 @@ export const FormInput = styled.div`
   label {
     ${tw`block mb-2 text-sm font-bold`}
   }
-  input {
-    ${tw`w-full px-3 py-2 text-lg leading-tight text-white bg-gray-600 border-solid rounded focus:outline-none focus:border-green-400`}
+  input,
+  select,
+  textarea {
+    ${tw`w-full px-3 py-2 text-lg leading-tight text-white bg-gray-600 border-2 border-gray-600 border-solid rounded appearance-none focus:outline-none focus:shadow-md focus:border-green-400`}
     ::placeholder {
       ${tw`text-base text-gray-400`}
     }
+  }
+  textarea {
+    ${tw`resize-y`}
   }
   input[type='number'] {
     &::-webkit-inner-spin-button,
