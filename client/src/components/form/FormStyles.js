@@ -30,6 +30,12 @@ export const FormInput = styled.div`
       ${tw`text-base text-gray-400`}
     }
   }
+  input[type='number'] {
+    &::-webkit-inner-spin-button,
+    &::-webkit-outer-spin-button {
+      ${tw`m-0 appearance-none`}
+    }
+  }
 `;
 
 export const SubmitContainter = styled.div`

@@ -19,7 +19,7 @@ export const Icon = styled(ChevronDownIcon)`
 `;
 
 export const MenuOptions = styled.ul`
-  ${tw`absolute top-0 right-0 flex flex-col w-56 p-2 transform bg-black rounded-md shadow-lg cursor-default translate-y-9`}
+  ${tw`absolute top-0 right-0 z-10 flex flex-col w-56 p-2 transform bg-black rounded-md shadow-lg cursor-default translate-y-9`}
 `;
 export const MenuItem = styled.li`
   ${tw`list-none`}

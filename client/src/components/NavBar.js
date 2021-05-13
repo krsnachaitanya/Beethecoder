@@ -39,7 +39,7 @@ const NavBar = ({ history }) => {
     } else {
       return [
         { name: 'Dashboard', href: '/admin/dashboard' },
-        { name: 'Products', href: '/products' },
+        { name: 'Products', href: '/admin/products' },
         { name: 'Categories', href: '/admin/categories' },
         { name: 'Orders', href: '/orders' },
       ];

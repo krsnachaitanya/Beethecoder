@@ -7,10 +7,11 @@ import Signin from './pages/signin';
 import Signup from './pages/signup';
 import Dashboard from './pages/dashboard';
 import AdminDashboard from './pages/admin/dashboard';
-
 import ProtectedRoute from './utils/auth/ProtectedRoute';
 import Categories from './pages/admin/categories';
 import createCategory from './pages/admin/categories/createCategory';
+import Products from './pages/admin/products';
+import CreateProduct from './pages/admin/products/createProduct';
 
 const Routes = () => {
   return (
@@ -36,6 +37,12 @@ const Routes = () => {
           path="/create-category"
           exact
           component={createCategory}
+        />
+        <ProtectedRoute path="/admin/products" exact component={Products} />
+        <ProtectedRoute
+          path="/create-product"
+          exact
+          component={CreateProduct}
         />
       </Switch>
       <Footer />
