@@ -6,7 +6,7 @@ import {
   FormWrapper,
   SubmitButton,
   SubmitContainter,
-} from '../../components/FormStyles';
+} from '../../components/form/FormStyles';
 import PageTitle from '../../components/PageTitle';
 import { signup } from '../../utils/auth';
 

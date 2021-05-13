@@ -1,21 +1,18 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
-import tw from 'twin.macro';
+
 import Alert from '../../../components/alert';
-import DashboardMenu from '../../../components/DashboardMenu';
 import {
   Form,
   FormInput,
   SubmitButton,
+  CancelLink,
   SubmitContainter,
-} from '../../../components/FormStyles.js';
+  Wrapper,
+} from '../../../components/form/FormStyles.js';
 import { isAuthenticated } from '../../../utils/auth';
+import { createDoc } from '../../../utils/admin/adminapicall';
+import DashboardMenu from '../../../components/DashboardMenu';
 import categoryMenu from './categoryMenu';
-import { createCategoryAPI } from '../../../utils/admin/adminapicall';
-
-const DashboardWrapper = styled.div`
-  ${tw`flex justify-center p-8 m-8 bg-gray-600 rounded-md`}
-`;
 
 const createCategory = () => {
   const [name, setName] = useState('');
@@ -32,13 +29,23 @@ const createCategory = () => {
     setStatus('');
     setMessage('');
 
-    const data = await createCategoryAPI(isAuthenticated().token, {
-      name,
+    const data = await createDoc({
+      token: isAuthenticated().token,
+      link: '/categories',
+      json: true,
+      data: {
+        name,
+      },
     });
 
-    setName('');
+    console.log(data);
 
-    if (data.status) {
+    if (data.status === 'success') {
+      setName('');
+      setStatus(data.status);
+      setMessage('Category created successfully.');
+      setShowAlert(true);
+    } else {
       setStatus(data.status);
       setMessage(data.message);
       setShowAlert(true);
@@ -51,12 +58,11 @@ const createCategory = () => {
         <Alert
           status={status}
           message={message}
-          showAlert={showAlert}
           handleAlert={() => setShowAlert(false)}
         />
       )}
-      <DashboardMenu title="Create new category" menu={categoryMenu} />
-      <DashboardWrapper>
+      <DashboardMenu title="Create New Category" menu={categoryMenu} />
+      <Wrapper>
         <Form action="#" method="POST">
           <input type="hidden" name="remember" defaultValue="true" />
           <FormInput>
@@ -72,6 +78,7 @@ const createCategory = () => {
             />
           </FormInput>
           <SubmitContainter>
+            <CancelLink to="/admin/categories">Go back</CancelLink>
             <SubmitButton
               onClick={onSubmit}
               disabled={name === ''}
@@ -81,7 +88,7 @@ const createCategory = () => {
             </SubmitButton>
           </SubmitContainter>
         </Form>
-      </DashboardWrapper>
+      </Wrapper>
     </main>
   );
 };

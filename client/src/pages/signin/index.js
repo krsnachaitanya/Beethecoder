@@ -9,7 +9,7 @@ import {
   FormWrapper,
   SubmitButton,
   SubmitContainter,
-} from '../../components/FormStyles';
+} from '../../components/form/FormStyles';
 import PageTitle from '../../components/PageTitle';
 import { signin, authenticate, isAuthenticated } from '../../utils/auth';
 
