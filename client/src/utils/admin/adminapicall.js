@@ -6,7 +6,7 @@ export const createDoc = async ({ token, link, json, data }) => {
       method: 'POST',
       headers: {
         Accept: 'application/json',
-        'Content-Type': json ? 'application/json' : 'multipart/form-data',
+        ...(json && { 'Content-Type': 'application/json' }),
         Authorization: `Bearer ${token}`,
       },
       body: json ? JSON.stringify(data) : data,
@@ -64,6 +64,7 @@ export const updateDoc = async ({ token, link, json, id, data }) => {
 
 export const deleteDoc = async ({ token, link, id }) => {
   try {
+    console.log(token);
     const response = await fetch(`${api}${link}/${id}`, {
       method: 'DELETE',
       headers: {

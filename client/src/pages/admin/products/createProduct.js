@@ -12,6 +12,7 @@ import {
 import { getAllDocs } from '../../../utils/admin/adminapicall';
 import { isAuthenticated } from '../../../utils/auth';
 import productMenu from './productMenu';
+import { createDoc } from '../../../utils/admin/adminapicall';
 
 const CreateProduct = () => {
   const [values, setValues] = useState({
@@ -23,7 +24,6 @@ const CreateProduct = () => {
     category: '',
     categories: [],
     loading: false,
-    createdProduct: '',
     didRedirect: false,
     formData: '',
   });
@@ -40,7 +40,6 @@ const CreateProduct = () => {
     category,
     categories,
     loading,
-    createdProduct,
     didRedirect,
     formData,
   } = values;
@@ -74,14 +73,47 @@ const CreateProduct = () => {
   }, []);
 
   const handleChange = (name) => (event) => {
-    const value = name === 'image' ? event.target.file[0] : event.target.value;
+    const value = name === 'image' ? event.target.files[0] : event.target.value;
     formData.set(name, value);
     setValues({ ...values, [name]: value });
   };
 
-  const onSubmit = (event) => {
+  const onSubmit = async (event) => {
     event.preventDefault();
+    setValues({ ...values, loading: true });
+    setStatus('Sending data...');
+    setMessage('Please wait...');
+    try {
+      const response = await createDoc({
+        token: isAuthenticated().token,
+        link: '/products',
+        data: formData,
+      });
+
+      if (response.status !== 'success') throw new Error(response.message);
+
+      setStatus(response.status);
+      setMessage(
+        `Product: '${response.data.product.name}' created successfully.`
+      );
+      setShowAlert(true);
+      setValues({
+        ...values,
+        name: '',
+        description: '',
+        price: '',
+        image: '',
+        category: '',
+        stock: '',
+        loading: false,
+      });
+    } catch (error) {
+      setStatus('error');
+      setMessage(error.message);
+      setShowAlert(true);
+    }
   };
+  // todo: Create custom input type file component.
   return (
     <main>
       {showAlert && (
@@ -116,7 +148,6 @@ const CreateProduct = () => {
               placeholder="Add an image"
               accept="image"
               onChange={handleChange('image')}
-              value={image}
             />
           </FormInput>
           <FormInput>

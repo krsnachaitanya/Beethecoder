@@ -60,7 +60,7 @@ exports.createProduct = catchAsync(async (req, res, next) => {
 
   if (!newProduct) return next(new AppError(('Creating product failed.', 400)));
 
-  res.status(200).json({ status: 'success', data: { Product: newProduct } });
+  res.status(200).json({ status: 'success', data: { product: newProduct } });
 });
 
 exports.updateProduct = catchAsync(async (req, res, next) => {
