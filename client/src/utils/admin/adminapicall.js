@@ -64,7 +64,6 @@ export const updateDoc = async ({ token, link, json, id, data }) => {
 
 export const deleteDoc = async ({ token, link, id }) => {
   try {
-    console.log(token);
     const response = await fetch(`${api}${link}/${id}`, {
       method: 'DELETE',
       headers: {

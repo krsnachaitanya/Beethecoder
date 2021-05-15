@@ -43,7 +43,7 @@ const productSchema = new mongoose.Schema(
 productSchema.pre(
   /find\b|findOne\b|findOneAndUpdate\b|!findOneAndDelete\b/,
   function (next) {
-    this.select('-photo -__v -updatedAt -createdAt');
+    this.select('-__v -updatedAt -createdAt');
     next();
   }
 );

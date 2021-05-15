@@ -29,9 +29,9 @@ const Products = () => {
       });
       if (data.status !== 'success') throw new Error(data.message);
       setProducts(data.data.documents);
+
       setShowAlert(false);
     } catch (error) {
-      console.log(error);
       setStatus('error');
       setMessage(error.message);
       setShowAlert(true);
@@ -49,9 +49,10 @@ const Products = () => {
         link: '/products',
         id,
       });
+      console.log(response);
       if (response.status !== 'success') throw new Error(response.message);
       preload();
-      setStatus('response.status');
+      setStatus(response.status);
       setMessage(response.message);
       setShowAlert(true);
     } catch (error) {

@@ -20,11 +20,9 @@ const CreateProduct = () => {
     description: '',
     price: '',
     stock: '',
-    image: '',
+    photo: '',
     category: '',
     categories: [],
-    loading: false,
-    didRedirect: false,
     formData: '',
   });
   const [status, setStatus] = useState('');
@@ -36,11 +34,8 @@ const CreateProduct = () => {
     description,
     price,
     stock,
-    image,
     category,
     categories,
-    loading,
-    didRedirect,
     formData,
   } = values;
 
@@ -73,14 +68,13 @@ const CreateProduct = () => {
   }, []);
 
   const handleChange = (name) => (event) => {
-    const value = name === 'image' ? event.target.files[0] : event.target.value;
+    const value = name === 'photo' ? event.target.files[0] : event.target.value;
     formData.set(name, value);
     setValues({ ...values, [name]: value });
   };
 
   const onSubmit = async (event) => {
     event.preventDefault();
-    setValues({ ...values, loading: true });
     setStatus('Sending data...');
     setMessage('Please wait...');
     try {
@@ -91,7 +85,7 @@ const CreateProduct = () => {
       });
 
       if (response.status !== 'success') throw new Error(response.message);
-
+      console.log(response);
       setStatus(response.status);
       setMessage(
         `Product: '${response.data.product.name}' created successfully.`
@@ -102,10 +96,9 @@ const CreateProduct = () => {
         name: '',
         description: '',
         price: '',
-        image: '',
+        photo: '',
         category: '',
         stock: '',
-        loading: false,
       });
     } catch (error) {
       setStatus('error');
@@ -140,14 +133,14 @@ const CreateProduct = () => {
             />
           </FormInput>
           <FormInput>
-            <label htmlFor="image">Product Image</label>
+            <label htmlFor="photo">Product Image</label>
             <input
-              id="image"
-              name="image"
+              id="photo"
+              name="photo"
               type="file"
               placeholder="Add an image"
               accept="image"
-              onChange={handleChange('image')}
+              onChange={handleChange('photo')}
             />
           </FormInput>
           <FormInput>
