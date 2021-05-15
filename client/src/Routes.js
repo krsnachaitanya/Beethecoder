@@ -10,8 +10,10 @@ import AdminDashboard from './pages/admin/dashboard';
 import ProtectedRoute from './utils/auth/ProtectedRoute';
 import Categories from './pages/admin/categories';
 import createCategory from './pages/admin/categories/createCategory';
+import updateCategory from './pages/admin/categories/updateCategory';
 import Products from './pages/admin/products';
 import CreateProduct from './pages/admin/products/createProduct';
+import updateProduct from './pages/admin/products/updateProduct';
 
 const Routes = () => {
   return (
@@ -38,11 +40,21 @@ const Routes = () => {
           exact
           component={createCategory}
         />
+        <ProtectedRoute
+          path="/update-category/:categorySlug"
+          exact
+          component={updateCategory}
+        />
         <ProtectedRoute path="/admin/products" exact component={Products} />
         <ProtectedRoute
           path="/create-product"
           exact
           component={CreateProduct}
+        />
+        <ProtectedRoute
+          path="/update-product/:productSlug"
+          exact
+          component={updateProduct}
         />
       </Switch>
       <Footer />

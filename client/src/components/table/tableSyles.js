@@ -90,3 +90,7 @@ export const Edit = styled.td`
 export const Price = styled.td`
   ${tw`text-right `}
 `;
+
+export const Delete = styled.td`
+  ${tw`px-6 py-4 text-sm font-semibold text-center text-gray-400 cursor-pointer whitespace-nowrap hover:text-white`}
+`;

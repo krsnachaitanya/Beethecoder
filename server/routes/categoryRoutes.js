@@ -13,10 +13,12 @@ const {
 
 const router = express.Router();
 
+router.get('/', getAllCategories);
+
 router.use(protect);
 router.use(restrictTo('admin'));
 
-router.route('/').get(getAllCategories).post(createCategory);
+router.post('/', createCategory);
 router
   .route('/:id')
   .get(getCategory)

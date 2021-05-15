@@ -78,7 +78,7 @@ exports.updateProduct = catchAsync(async (req, res, next) => {
 
   if (!product) return next(new AppError(('Updating product failed.', 400)));
 
-  res.status(200).json({ status: 'success', data: { Product: product } });
+  res.status(200).json({ status: 'success', data: { product: product } });
 });
 
 exports.updateStock = catchAsync(async (req, res, next) => {

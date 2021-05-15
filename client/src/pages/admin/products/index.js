@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import DashboardMenu from '../../../components/DashboardMenu';
 import productMenu from './productMenu';
 import {
@@ -9,6 +10,7 @@ import {
   TBody,
   THead,
   Price,
+  Delete,
 } from '../../../components/table/tableSyles';
 import { isAuthenticated } from '../../../utils/auth';
 import { deleteDoc, getAllDocs } from '../../../utils/admin/adminapicall';
@@ -49,7 +51,6 @@ const Products = () => {
         link: '/products',
         id,
       });
-      console.log(response);
       if (response.status !== 'success') throw new Error(response.message);
       preload();
       setStatus(response.status);
@@ -99,13 +100,11 @@ const Products = () => {
                   <td>{product.stock}</td>
                   <td>{product.sold}</td>
                   <Edit>
-                    <button>Edit</button>
+                    <Link to={`/update-product/${product.slug}`}>Edit</Link>
                   </Edit>
-                  <Edit>
-                    <button onClick={() => handleDelete(product._id)}>
-                      Delete
-                    </button>
-                  </Edit>
+                  <Delete onClick={() => handleDelete(product._id)}>
+                    Delete
+                  </Delete>
                 </tr>
               ))}
             </TBody>

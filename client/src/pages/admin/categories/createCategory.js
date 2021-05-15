@@ -38,8 +38,6 @@ const createCategory = () => {
       },
     });
 
-    console.log(data);
-
     if (data.status === 'success') {
       setName('');
       setStatus(data.status);

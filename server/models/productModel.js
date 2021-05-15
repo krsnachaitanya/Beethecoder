@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const slugify = require('slugify');
 
 mongoose.Schema.Types.String.set('trim', true);
 
@@ -7,8 +8,9 @@ const productSchema = new mongoose.Schema(
     name: {
       type: String,
       required: [true, 'Please provide a product name.'],
-      maxlength: [32, 'Maximum length of a product name is 32 characters.'],
+      maxlength: [45, 'Maximum length of a product name is 45 characters.'],
     },
+    slug: String,
     description: {
       type: String,
       required: [true, 'Please provide a description.'],
@@ -17,7 +19,7 @@ const productSchema = new mongoose.Schema(
     price: {
       type: Number,
       required: [true, 'Please provide a price for product.'],
-      maxlength: [32, 'Maximum length of price is 32 characters.'],
+      maxlength: [10, 'Maximum length of price is 10 characters.'],
     },
     category: {
       type: mongoose.Schema.ObjectId,
@@ -39,6 +41,15 @@ const productSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+productSchema.pre('save', function (next) {
+  const partialSlug = slugify(this.name, {
+    lower: true,
+    remove: /[*+~.()'"!:@]/g,
+  });
+  this.slug = `${partialSlug}-${this._id}`;
+  next();
+});
 
 productSchema.pre(
   /find\b|findOne\b|findOneAndUpdate\b|!findOneAndDelete\b/,
