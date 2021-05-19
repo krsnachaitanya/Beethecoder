@@ -14,12 +14,12 @@ const NavBarStyles = styled.nav`
 `;
 
 const NavLink = styled(Link)`
-  ${tw`p-4 text-green-500 no-underline rounded-md hover:text-white`}
-  ${(props) => props.isactive && tw`text-white bg-gray-900 shadow-md`}
+  ${tw`p-4 text-white no-underline rounded-md hover:text-green-500`}
+  ${(props) => props.isactive && tw`text-green-500 bg-gray-900 shadow-md `}
 `;
 
 const SignOut = styled.span`
-  ${tw`text-green-500 hover:text-white`}
+  ${tw`text-white hover:text-green-500`}
 `;
 
 const NavBar = ({ history }) => {

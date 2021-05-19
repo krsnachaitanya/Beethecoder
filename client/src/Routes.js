@@ -14,6 +14,7 @@ import updateCategory from './pages/admin/categories/updateCategory';
 import Products from './pages/admin/products';
 import CreateProduct from './pages/admin/products/createProduct';
 import updateProduct from './pages/admin/products/updateProduct';
+import Cart from './pages/cart';
 
 const Routes = () => {
   return (
@@ -29,6 +30,7 @@ const Routes = () => {
           exact
           component={Dashboard}
         />
+        <ProtectedRoute path="/cart" restrictTo="user" exact component={Cart} />
         <ProtectedRoute
           path="/admin/dashboard"
           exact
