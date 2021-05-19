@@ -12,7 +12,7 @@ export const signup = async (user) => {
     });
     return await response.json();
   } catch (err) {
-    return console.log(err);
+    throw new Error(err.message);
   }
 };
 
@@ -28,7 +28,7 @@ export const signin = async (user) => {
     });
     return await response.json();
   } catch (err) {
-    return console.log(err);
+    throw new Error(err.message);
   }
 };
 
@@ -44,12 +44,9 @@ export const signout = async (next) => {
     if (typeof window !== 'undefined') {
       localStorage.removeItem('jwt');
       next();
-      // await fetch(`${api}/users/signout`, {
-      //   method: 'POST',
-      // });
     }
   } catch (err) {
-    return console.log(err);
+    throw new Error(err.message);
   }
 };
 

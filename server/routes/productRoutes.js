@@ -10,12 +10,14 @@ const {
   createProduct,
   updateProduct,
   deleteProduct,
+  getProductPhoto,
 } = require('../controllers/productController');
 
 const router = express.Router();
 
 router.get('/', getAllProducts);
 router.get('/:id', getProduct);
+router.get('/:id/photo', getProductPhoto);
 
 router.use(protect);
 router.use(restrictTo('admin'));

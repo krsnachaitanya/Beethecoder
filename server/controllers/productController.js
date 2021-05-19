@@ -93,6 +93,14 @@ exports.updateStock = catchAsync(async (req, res, next) => {
   next();
 });
 
+exports.getProductPhoto = catchAsync(async (req, res, next) => {
+  const photo = await Product.findById(req.params.id).select('photo');
+
+  if (!photo) return next(new AppError('Product photo not found!', 404));
+  res.set('Content-Type', photo.photo.contentType);
+  res.send(photo.photo.data);
+});
+
 exports.getAllProducts = getAll(Product, { path: 'category', select: '-__v' });
 exports.getProduct = getOne(Product, { path: 'category', select: '-__v' });
 exports.deleteProduct = deleteOne(Product);

@@ -18,7 +18,9 @@ const updateCategory = () => {
   const { categorySlug } = useParams();
   const categoryId = categorySlug.split('-').pop();
   // state
-  const [category, setCategory] = useState('');
+  const [category, setCategory] = useState({
+    name: '',
+  });
   const [status, setStatus] = useState('');
   const [message, setMessage] = useState('');
   const [showAlert, setShowAlert] = useState(false);
@@ -35,7 +37,7 @@ const updateCategory = () => {
 
       if (response.status !== 'success') throw new Error(category.message);
 
-      setCategory(response.data.documents.name);
+      setCategory({ name: response.data.documents.name });
     } catch (error) {
       setStatus('error');
       setMessage(error.message);
@@ -48,7 +50,7 @@ const updateCategory = () => {
   }, []);
 
   const handleChange = (event) => {
-    setCategory(event.target.value);
+    setCategory({ name: event.target.value });
   };
 
   const onSubmit = async (event) => {
@@ -59,7 +61,7 @@ const updateCategory = () => {
       const response = await updateDoc({
         token: isAuthenticated().token,
         link: '/categories',
-        data: { name: category },
+        data: category,
         json: true,
         id: categoryId,
       });
@@ -67,7 +69,7 @@ const updateCategory = () => {
       if (response.status !== 'success') throw new Error(response.message);
       setStatus(response.status);
       setMessage(
-        `Category: '${response.data.documents.name}' updated successfully.`
+        `Category name '${response.data.documents.name}' updated successfully.`
       );
       setShowAlert(true);
       setCategory('');
@@ -82,8 +84,6 @@ const updateCategory = () => {
   const performRedirect = () => {
     if (didRedirect) return <Redirect to="/admin/categories" />;
   };
-
-  // todo: Create custom input type file component.
 
   return (
     <main>
@@ -107,10 +107,9 @@ const updateCategory = () => {
               required
               placeholder="Category Name"
               onChange={handleChange}
-              value={category}
+              value={category.name}
             />
           </FormInput>
-
           <SubmitContainter>
             <CancelLink to="/admin/products">Go back</CancelLink>
             <SubmitButton

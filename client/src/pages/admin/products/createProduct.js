@@ -80,7 +80,6 @@ const CreateProduct = () => {
       });
 
       if (response.status !== 'success') throw new Error(response.message);
-      console.log(response);
       setStatus(response.status);
       setMessage(
         `Product: '${response.data.product.name}' created successfully.`

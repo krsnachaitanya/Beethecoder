@@ -51,13 +51,13 @@ productSchema.pre('save', function (next) {
   next();
 });
 
-productSchema.pre(
-  /find\b|findOne\b|findOneAndUpdate\b|!findOneAndDelete\b/,
-  function (next) {
-    this.select('-__v -updatedAt -createdAt');
-    next();
-  }
-);
+// productSchema.pre(
+//   /find\b|findOne\b|findOneAndUpdate\b|!findOneAndDelete\b/,
+//   function (next) {
+//     this.select('-__v -updatedAt -createdAt');
+//     next();
+//   }
+// );
 
 const Product = mongoose.model('Product', productSchema);
 module.exports = Product;
