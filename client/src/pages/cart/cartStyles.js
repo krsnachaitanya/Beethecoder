@@ -6,6 +6,8 @@ import {
 import styled from 'styled-components';
 import tw from 'twin.macro';
 
+// ** Empty Cart Styles
+
 export const EmptyCartIcon = styled(ShoppingCartIcon)`
   ${tw`w-40 h-40 text-gray-500 `}
 `;
@@ -28,4 +30,17 @@ export const EmptyCart = styled.div`
   & > p {
     ${tw`mb-12`}
   }
+`;
+
+// ** Cart Styles
+
+export const CartStyles = styled.div`
+  ${tw`flex flex-wrap gap-6 m-4 sm:m-8 `}
+`;
+export const CartList = styled.div`
+  ${tw`flex-1 p-6 bg-gray-700 rounded-md`}
+`;
+
+export const OrderSummary = styled.div`
+  ${tw`bg-gray-700 rounded-md`}
 `;

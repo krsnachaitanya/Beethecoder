@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from 'react';
+import CartItemCard from '../../components/card/CartItemCard';
 import PageTitle from '../../components/PageTitle';
 import { loadCart } from '../../utils/cart';
 import {
   ArrowRight,
+  CartList,
+  CartStyles,
   ContinueShopping,
   EmptyCart,
   EmptyCartIcon,
+  OrderSummary,
 } from './cartStyles';
 
 const Cart = () => {
@@ -32,33 +36,20 @@ const Cart = () => {
         title="Shopping Cart"
         description={`${products ? products.length : 0} items in basket`}
       />
-      {!products && ShowEmptyCart}
-
-      {/* 
-        // todo: create all these components with these names
-        products && (
-        <ProductsList>
-          <ProductHeading>
-            <th scope="col">Product Details</th>
-            <th scope="col">Quantity</th>
-            <th scope="col">Price</th>
-            <th scope="col">Total</th>
-          </ProductHeading>
-          <ProductsBody>
+      {!products ? (
+        ShowEmptyCart
+      ) : (
+        <CartStyles>
+          <CartList>
             {products.map((product) => (
-              <ProductRow key={product._id}>
-                <ProductDetails>
-                  <p>{product.name}</p>
-                  <img src={product.image} alt={product.name} />
-                </ProductDetails>
-                <Quantity>{product.quantity}</Quantity>
-                <Price>₹{product.price}</Price>
-                <Price>₹{product.price}</Price>
-              </ProductRow>
+              <CartItemCard key={product._id} product={product} />
             ))}
-          </ProductsBody>
-        </ProductsList>
-      ) */}
+          </CartList>
+          <OrderSummary>
+            <button>Checkout</button>
+          </OrderSummary>
+        </CartStyles>
+      )}
     </main>
   );
 };

@@ -4,8 +4,8 @@ import {
   AddToCart,
   CardContent,
   CardStyles,
+  Delete,
   Minus,
-  Name,
   Plus,
   Price,
   Quantity,
@@ -19,12 +19,20 @@ const Card = ({ product }) => {
 
   const addToCart = () => {
     setQuantity(quantity + 1);
-    addItemToCart({ ...product, quantity: quantity + 1 });
+    addItemToCart({
+      ...product,
+      quantity: quantity + 1,
+      total: product.price * (quantity + 1),
+    });
   };
 
   const removeFromCart = () => {
     setQuantity(quantity - 1);
-    removeItemFromCart({ ...product, quantity: quantity - 1 });
+    removeItemFromCart({
+      ...product,
+      quantity: quantity - 1,
+      total: product.price * (quantity - 1),
+    });
   };
 
   return (
@@ -34,7 +42,7 @@ const Card = ({ product }) => {
         alt={product.name}
       />
       <CardContent>
-        <Name>{product.name}</Name>
+        <p>{product.name}</p>
         <Price>₹{product.price}.00</Price>
       </CardContent>
       {quantity < 1 ? (
@@ -42,7 +50,11 @@ const Card = ({ product }) => {
       ) : (
         <Quantity>
           <p>Quantity:</p>
-          <Minus onClick={removeFromCart} />
+          {quantity <= 1 ? (
+            <Delete onClick={removeFromCart} />
+          ) : (
+            <Minus onClick={removeFromCart} />
+          )}
           <p>{quantity}</p>
           <Plus onClick={addToCart} />
         </Quantity>

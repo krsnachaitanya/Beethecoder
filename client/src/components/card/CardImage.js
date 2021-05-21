@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { ImageWrapper } from './CardStyles';
 import loadingImage from '../../data/images/cardboard-box.jpg';
 
-const CardImage = ({ src, alt = '' }) => {
+const CardImage = ({ src, alt = '', cartItem }) => {
   const [imageSrc, setImageSrc] = useState(loadingImage);
 
   // start loading original image
@@ -14,7 +14,7 @@ const CardImage = ({ src, alt = '' }) => {
     };
   }, [src]);
   return (
-    <ImageWrapper>
+    <ImageWrapper cartItem={cartItem}>
       <img src={imageSrc} alt={alt} />
     </ImageWrapper>
   );

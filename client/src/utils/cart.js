@@ -9,9 +9,7 @@ export const addItemToCart = (item) => {
 
       const updatedCart = isItemInCart
         ? cart.map((curProduct) =>
-            curProduct._id === item._id
-              ? { ...curProduct, quantity: item.quantity }
-              : curProduct
+            curProduct._id === item._id ? { ...item } : curProduct
           )
         : [...cart, { ...item }];
       localStorage.setItem('cart', JSON.stringify(updatedCart));
@@ -28,9 +26,7 @@ export const removeItemFromCart = (item) => {
       const cart = JSON.parse(localStorage.getItem('cart'));
 
       const removeItems = cart.map((curProduct) =>
-        curProduct._id === item._id
-          ? { ...curProduct, quantity: item.quantity }
-          : curProduct
+        curProduct._id === item._id ? { ...item } : curProduct
       );
       const updatedCart = removeItems.filter((item) => item.quantity !== 0);
 
