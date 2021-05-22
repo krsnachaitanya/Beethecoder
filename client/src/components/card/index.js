@@ -15,12 +15,9 @@ import { api } from '../../backend';
 import { CartContext } from '../../pages/cart/cartContext';
 
 const Card = ({ product }) => {
-  const { updateCart, cart } = useContext(CartContext);
-  const isInCart = (product) =>
-    cart.find((curItem) => curItem._id === product._id && curItem);
-  const cartItem = isInCart(product);
+  const { updateCart } = useContext(CartContext);
 
-  const [quantity, setQuantity] = useState(cartItem?.quantity || 0);
+  const [quantity, setQuantity] = useState(product.quantity);
 
   const addToCart = () => {
     setQuantity(quantity + 1);
