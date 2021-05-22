@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import CartItemCard from '../../components/card/CartItemCard';
 import PageTitle from '../../components/PageTitle';
 import { loadCart } from '../../utils/cart';
+import { CartContext } from './cartContext';
 import {
   ArrowRight,
   CartList,
@@ -14,6 +15,7 @@ import {
 
 const Cart = () => {
   const [products, setProducts] = useState([]);
+  const [cart, setCart] = useContext(CartContext);
 
   useEffect(() => {
     setProducts(loadCart());
@@ -34,9 +36,11 @@ const Cart = () => {
     <main>
       <PageTitle
         title="Shopping Cart"
-        description={`${products ? products.length : 0} items in basket`}
+        description={`${
+          products ? products.length : 0
+        } items in basket. cart is ${cart.length}`}
       />
-      {!products ? (
+      {products.length === 0 ? (
         ShowEmptyCart
       ) : (
         <CartStyles>

@@ -1,20 +1,22 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 
 import {
   CartItemStyles,
   Delete,
   Minus,
-  Details,
+  Name,
   Plus,
   Price,
   Quantity,
 } from './CardStyles';
 import CardImage from './CardImage';
 import { api } from '../../backend';
-import { addItemToCart, removeItemFromCart } from '../../utils/cart';
+import { updateCart } from '../../utils/cart';
+import { CartContext } from '../../pages/cart/cartContext';
 
 const CartItemCard = ({ product }) => {
   const [cartItem, setCartItem] = useState({ ...product });
+  const [cart, setCart] = useContext(CartContext);
 
   const addToCart = () => {
     const updatedItem = {
@@ -23,7 +25,7 @@ const CartItemCard = ({ product }) => {
       total: product.price * (cartItem.quantity + 1),
     };
     setCartItem({ ...updatedItem });
-    addItemToCart({ ...updatedItem });
+    updateCart({ ...updatedItem });
   };
 
   const removeFromCart = () => {
@@ -33,32 +35,32 @@ const CartItemCard = ({ product }) => {
       total: product.price * (cartItem.quantity - 1),
     };
     setCartItem({ ...updatedItem });
-    removeItemFromCart({ ...updatedItem });
+    updateCart({ ...updatedItem });
   };
 
   return (
-    <CartItemStyles>
-      <CardImage
-        src={`${api}/products/${cartItem._id}/photo`}
-        alt={cartItem.name}
-        cartItem={true}
-      />
-      <Details>
-        <p>
+    cartItem.quantity >= 1 && (
+      <CartItemStyles>
+        <CardImage
+          src={`${api}/products/${cartItem._id}/photo`}
+          alt={cartItem.name}
+          cartItem={true}
+        />
+        <Name>
           {cartItem.name} <span>₹{cartItem.price}.00 / item</span>
-        </p>
-      </Details>
-      <Quantity cartItem>
-        {cartItem.quantity <= 1 ? (
-          <Delete onClick={removeFromCart} />
-        ) : (
-          <Minus onClick={removeFromCart} />
-        )}
-        <p>{cartItem.quantity}</p>
-        <Plus onClick={addToCart} />
-      </Quantity>
-      <Price cartItem>₹{cartItem.total}.00</Price>
-    </CartItemStyles>
+        </Name>
+        <Quantity cartItem>
+          {cartItem.quantity <= 1 ? (
+            <Delete onClick={removeFromCart} />
+          ) : (
+            <Minus onClick={removeFromCart} />
+          )}
+          <p>{cartItem.quantity}</p>
+          <Plus onClick={addToCart} />
+        </Quantity>
+        <Price cartItem>₹{cartItem.total}.00</Price>
+      </CartItemStyles>
+    )
   );
 };
 

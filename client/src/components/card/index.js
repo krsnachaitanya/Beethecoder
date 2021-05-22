@@ -12,14 +12,14 @@ import {
 } from './CardStyles';
 import CardImage from './CardImage';
 import { api } from '../../backend';
-import { addItemToCart, removeItemFromCart } from '../../utils/cart';
+import { updateCart } from '../../utils/cart';
 
 const Card = ({ product }) => {
   const [quantity, setQuantity] = useState(0);
 
   const addToCart = () => {
     setQuantity(quantity + 1);
-    addItemToCart({
+    updateCart({
       ...product,
       quantity: quantity + 1,
       total: product.price * (quantity + 1),
@@ -28,7 +28,7 @@ const Card = ({ product }) => {
 
   const removeFromCart = () => {
     setQuantity(quantity - 1);
-    removeItemFromCart({
+    updateCart({
       ...product,
       quantity: quantity - 1,
       total: product.price * (quantity - 1),

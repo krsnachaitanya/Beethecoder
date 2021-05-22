@@ -27,15 +27,11 @@ export const CardContent = styled.div`
   ${tw`flex items-center justify-between gap-6`}
 `;
 
-export const Details = styled.div`
-  ${tw`col-span-2 sm:col-span-1 sm:row-span-2`}
+export const Name = styled.p`
+  ${tw`col-span-2 my-0 font-bold sm:col-span-1 sm:row-span-2`}
 
-  & > p {
-    ${tw`my-0 font-bold `}
-
-    & > span {
-      ${tw`block text-sm font-normal text-gray-300`}
-    }
+  & > span {
+    ${tw`block text-sm font-normal text-gray-300`}
   }
 `;
 
