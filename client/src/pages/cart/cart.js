@@ -6,7 +6,8 @@ const loadCart = () => {
   }
 };
 
-const updateCart = (item) => {
+const updateLocalCart = (item) => {
+  console.log(item);
   const cart = loadCart();
   if (cart) {
     const isItemInCart = cart.find((curProduct) => curProduct._id === item._id);
@@ -28,4 +29,4 @@ const updateCart = (item) => {
   localStorage.setItem('cart', JSON.stringify([{ ...item }]));
 };
 
-export { loadCart, updateCart };
+export { loadCart, updateLocalCart };

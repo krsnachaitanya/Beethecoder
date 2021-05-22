@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 
 import {
   AddToCart,
@@ -12,10 +12,15 @@ import {
 } from './CardStyles';
 import CardImage from './CardImage';
 import { api } from '../../backend';
-import { updateCart } from '../../utils/cart';
+import { CartContext } from '../../pages/cart/cartContext';
 
 const Card = ({ product }) => {
-  const [quantity, setQuantity] = useState(0);
+  const { updateCart, cart } = useContext(CartContext);
+  const isInCart = (product) =>
+    cart.find((curItem) => curItem._id === product._id && curItem);
+  const cartItem = isInCart(product);
+
+  const [quantity, setQuantity] = useState(cartItem?.quantity || 0);
 
   const addToCart = () => {
     setQuantity(quantity + 1);

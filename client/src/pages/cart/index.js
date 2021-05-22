@@ -1,7 +1,6 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import CartItemCard from '../../components/card/CartItemCard';
 import PageTitle from '../../components/PageTitle';
-import { loadCart } from '../../utils/cart';
 import { CartContext } from './cartContext';
 import {
   ArrowRight,
@@ -14,12 +13,7 @@ import {
 } from './cartStyles';
 
 const Cart = () => {
-  const [products, setProducts] = useState([]);
-  const [cart, setCart] = useContext(CartContext);
-
-  useEffect(() => {
-    setProducts(loadCart());
-  }, []);
+  const { cart } = useContext(CartContext);
 
   const ShowEmptyCart = (
     <EmptyCart>
@@ -36,16 +30,14 @@ const Cart = () => {
     <main>
       <PageTitle
         title="Shopping Cart"
-        description={`${
-          products ? products.length : 0
-        } items in basket. cart is ${cart.length}`}
+        description={`${cart ? cart.length : 0} items in basket`}
       />
-      {products.length === 0 ? (
+      {cart.length === 0 ? (
         ShowEmptyCart
       ) : (
         <CartStyles>
           <CartList>
-            {products.map((product) => (
+            {cart.map((product) => (
               <CartItemCard key={product._id} product={product} />
             ))}
           </CartList>
