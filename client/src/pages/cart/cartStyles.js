@@ -38,9 +38,40 @@ export const CartStyles = styled.div`
   ${tw`flex flex-wrap gap-6 m-4 sm:m-8 `}
 `;
 export const CartList = styled.div`
-  ${tw`flex-1 p-6 bg-gray-700 rounded-md`}
+  ${tw`flex-1 p-8 bg-gray-700 rounded-md`}
 `;
 
 export const OrderSummary = styled.div`
-  ${tw`bg-gray-700 rounded-md`}
+  ${tw`p-8 bg-gray-700 rounded-md`}
+  h3 {
+    ${tw`mt-0 text-2xl`}
+  }
+  & > button {
+    ${tw`w-full text-lg`}
+  }
+`;
+
+export const CouponCode = styled.form`
+  & > div {
+    ${tw`flex gap-4`}
+  }
+  label {
+    ${tw`block mb-2 text-sm font-bold`}
+  }
+  input {
+    ${tw`px-3 py-2 text-lg leading-tight text-white bg-gray-600 border-2 border-gray-600 border-solid rounded-md appearance-none focus:outline-none focus:shadow-md focus:border-green-400`}
+    ::placeholder {
+      ${tw`text-base text-gray-400`}
+    }
+  }
+`;
+
+export const BillDetails = styled.div`
+  ${tw`my-8`}
+  p {
+    ${tw`flex justify-between `}
+    &:last-child {
+      ${tw`pt-5 text-2xl border-0 border-t border-gray-500 border-solid `}
+    }
+  }
 `;

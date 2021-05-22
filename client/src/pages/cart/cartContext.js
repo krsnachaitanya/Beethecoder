@@ -36,8 +36,11 @@ export const CartProvider = (props) => {
     localStorage.setItem('cart', JSON.stringify([{ ...item }]));
   };
 
+  const clearCart = () =>
+    typeof window !== 'undefined' && localStorage.removeItem('cart');
+
   return (
-    <CartContext.Provider value={{ cart, updateCart }}>
+    <CartContext.Provider value={{ cart, updateCart, clearCart }}>
       {props.children}
     </CartContext.Provider>
   );
