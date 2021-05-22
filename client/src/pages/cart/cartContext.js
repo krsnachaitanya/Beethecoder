@@ -36,26 +36,8 @@ export const CartProvider = (props) => {
     localStorage.setItem('cart', JSON.stringify([{ ...item }]));
   };
 
-  const addItem = (item) => {
-    updateCart({
-      ...item,
-      quantity: item.quantity ? item.quantity++ : 1,
-      total: item.quantity ? item.price * (item.quantity + 1) : item.price,
-    });
-  };
-
-  const removeItem = (item) => {
-    updateCart({
-      ...item,
-      quantity: item.quantity && item.quantity--,
-      total: item.quantity ? item.price * (item.quantity - 1) : item.price,
-    });
-  };
-
   return (
-    <CartContext.Provider
-      value={{ cart, setCart, addItem, removeItem, updateCart }}
-    >
+    <CartContext.Provider value={{ cart, updateCart }}>
       {props.children}
     </CartContext.Provider>
   );
