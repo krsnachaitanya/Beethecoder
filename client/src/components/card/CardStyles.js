@@ -18,7 +18,9 @@ export const ImageWrapper = styled.div`
 
   & > img {
     ${({ cartItem }) => [
-      cartItem ? tw`object-cover rounded-sm w-28 h-28` : tw`w-full rounded-2xl`,
+      cartItem
+        ? tw`object-cover w-24 h-24 rounded-sm sm:w-28 sm:h-28`
+        : tw`w-full rounded-2xl`,
     ]}
   }
 `;
@@ -76,8 +78,8 @@ export const Delete = styled(TrashIcon)`
 `;
 
 export const CartItemStyles = styled.div`
-  ${tw`grid items-center my-2 min-w-min`}
-  grid-template-columns: 7rem 1fr 1fr;
+  ${tw`grid items-center my-8 sm:my-4 min-w-min`}
+  grid-template-columns: 6rem 1fr 1fr;
   column-gap: 1rem;
   @media (min-width: 640px) {
     grid-template-columns: 7rem 1fr 1fr 1fr;

@@ -29,6 +29,7 @@ const NavBar = ({ history }) => {
         { name: 'Home', href: '/' },
         { name: 'Sign In', href: '/users/signin' },
         { name: 'Sign Up', href: '/users/signup' },
+        { name: 'Cart', href: '/cart' },
       ];
     if (isAuthenticated().data.user.role === 'user') {
       return [

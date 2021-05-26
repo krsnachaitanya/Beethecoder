@@ -1,7 +1,9 @@
 import React, { useContext, useState } from 'react';
 import CartItemCard from '../../components/card/CartItemCard';
 import PageTitle from '../../components/PageTitle';
+import StripeCheckout from '../../components/StripeCheckout';
 import { CartContext } from './cartContext';
+import { isAuthenticated } from '../../utils/auth';
 import {
   ArrowRight,
   BillDetails,
@@ -47,6 +49,30 @@ const Cart = () => {
   };
 
   const totalCost = subtotal() + shipping - discount;
+
+  // send only necessary details as props in to the stripe checkout
+  const order = {
+    products: cart.map((item) => ({
+      name: item.name,
+      price: item.price,
+      quantity: item.quantity,
+      total: item.total,
+      id: item._id,
+      category: { id: item.category._id, name: item.category.name },
+    })),
+    discount,
+    shipping,
+    subtotal: subtotal(),
+    total: totalCost,
+  };
+
+  const user = isAuthenticated();
+  const customer = {
+    token: user.token,
+    name: user.data.user.name,
+    email: user.data.user.email,
+    id: user.data.user.id,
+  };
 
   return (
     <main>
@@ -103,7 +129,11 @@ const Cart = () => {
                 Total Cost: <span>₹{totalCost}.00</span>
               </p>
             </BillDetails>
-            <button>Checkout</button>
+            {user ? (
+              <StripeCheckout customer={customer} order={order} />
+            ) : (
+              <button>Checkout</button>
+            )}
           </OrderSummary>
         </CartStyles>
       )}
