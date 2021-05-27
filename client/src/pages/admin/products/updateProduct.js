@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Redirect, useParams } from 'react-router-dom';
 import Alert from '../../../components/alert';
 import DashboardMenu from '../../../components/DashboardMenu';
@@ -15,9 +15,10 @@ import {
   getDoc,
   updateDoc,
 } from '../../../utils/admin/adminapicall';
-import { isAuthenticated } from '../../../utils/auth';
+import { UserContext } from '../../user-account/userContext';
 
 const updateProduct = () => {
+  const { user } = useContext(UserContext);
   // id param
   const { productSlug } = useParams();
   const productId = productSlug.split('-').pop();
@@ -38,11 +39,11 @@ const updateProduct = () => {
   const preload = async (id) => {
     try {
       const categories = getAllDocs({
-        token: isAuthenticated().token,
+        token: user.token,
         query: '/categories',
       });
       const product = getDoc({
-        token: isAuthenticated().token,
+        token: user.token,
         link: '/products',
         id,
       });
@@ -78,7 +79,7 @@ const updateProduct = () => {
     setMessage('Please wait...');
     try {
       const response = await updateDoc({
-        token: isAuthenticated().token,
+        token: user.token,
         link: '/products',
         data: formData,
         id: productId,

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Redirect, useParams } from 'react-router-dom';
 import Alert from '../../../components/alert';
 import DashboardMenu from '../../../components/DashboardMenu';
@@ -11,9 +11,10 @@ import {
   Wrapper,
 } from '../../../components/form/FormStyles';
 import { getDoc, updateDoc } from '../../../utils/admin/adminapicall';
-import { isAuthenticated } from '../../../utils/auth';
+import { UserContext } from '../../user-account/userContext';
 
 const updateCategory = () => {
+  const { user } = useContext(UserContext);
   // id param
   const { categorySlug } = useParams();
   const categoryId = categorySlug.split('-').pop();
@@ -30,7 +31,7 @@ const updateCategory = () => {
   const preload = async (id) => {
     try {
       const response = await getDoc({
-        token: isAuthenticated().token,
+        token: user.token,
         link: '/categories',
         id,
       });
@@ -59,7 +60,7 @@ const updateCategory = () => {
     setMessage('Please wait...');
     try {
       const response = await updateDoc({
-        token: isAuthenticated().token,
+        token: user.token,
         link: '/categories',
         data: category,
         json: true,

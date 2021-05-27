@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import DashboardMenu from '../../../components/DashboardMenu';
 import CategoryMenu from './categoryMenu';
@@ -11,11 +11,12 @@ import {
   THead,
   Delete,
 } from '../../../components/table/tableSyles';
-import { isAuthenticated } from '../../../utils/auth';
 import { deleteDoc, getAllDocs } from '../../../utils/admin/adminapicall';
 import Alert from '../../../components/alert';
+import { UserContext } from '../../user-account/userContext';
 
 const Categories = () => {
+  const { user } = useContext(UserContext);
   const [categories, setCategories] = useState([]);
   const [showAlert, setShowAlert] = useState(false);
   const [status, setStatus] = useState('');
@@ -45,7 +46,7 @@ const Categories = () => {
   const handleDelete = async (id) => {
     try {
       const response = await deleteDoc({
-        token: isAuthenticated().token,
+        token: user.token,
         link: '/categories',
         id,
       });

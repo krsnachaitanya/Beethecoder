@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Alert from '../../../components/alert';
 import DashboardMenu from '../../../components/DashboardMenu';
 import {
@@ -10,11 +10,12 @@ import {
   Wrapper,
 } from '../../../components/form/FormStyles';
 import { getAllDocs } from '../../../utils/admin/adminapicall';
-import { isAuthenticated } from '../../../utils/auth';
 import productMenu from './productMenu';
 import { createDoc } from '../../../utils/admin/adminapicall';
+import { UserContext } from '../../user-account/userContext';
 
 const CreateProduct = () => {
+  const { user } = useContext(UserContext);
   const [values, setValues] = useState({
     name: '',
     description: '',
@@ -42,7 +43,7 @@ const CreateProduct = () => {
   const preload = async () => {
     try {
       const data = await getAllDocs({
-        token: isAuthenticated().token,
+        token: user.token,
         query: '/categories',
       });
       if (data.status !== 'success') throw new Error(data.message);
@@ -74,7 +75,7 @@ const CreateProduct = () => {
     setMessage('Please wait...');
     try {
       const response = await createDoc({
-        token: isAuthenticated().token,
+        token: user.token,
         link: '/products',
         data: formData,
       });

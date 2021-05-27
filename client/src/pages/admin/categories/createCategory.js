@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 
 import Alert from '../../../components/alert';
 import {
@@ -9,12 +9,13 @@ import {
   SubmitContainter,
   Wrapper,
 } from '../../../components/form/FormStyles.js';
-import { isAuthenticated } from '../../../utils/auth';
 import { createDoc } from '../../../utils/admin/adminapicall';
 import DashboardMenu from '../../../components/DashboardMenu';
 import categoryMenu from './categoryMenu';
+import { UserContext } from '../../user-account/userContext';
 
 const createCategory = () => {
+  const { user } = useContext(UserContext);
   const [name, setName] = useState('');
   const [status, setStatus] = useState('');
   const [message, setMessage] = useState('');
@@ -30,7 +31,7 @@ const createCategory = () => {
     setMessage('');
 
     const data = await createDoc({
-      token: isAuthenticated().token,
+      token: user.token,
       link: '/categories',
       json: true,
       data: {

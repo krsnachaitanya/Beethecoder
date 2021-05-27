@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import DashboardMenu from '../../../components/DashboardMenu';
 import productMenu from './productMenu';
@@ -12,11 +12,12 @@ import {
   Price,
   Delete,
 } from '../../../components/table/tableSyles';
-import { isAuthenticated } from '../../../utils/auth';
 import { deleteDoc, getAllDocs } from '../../../utils/admin/adminapicall';
 import Alert from '../../../components/alert';
+import { UserContext } from '../../user-account/userContext';
 
 const Products = () => {
+  const { user } = useContext(UserContext);
   const [products, setProducts] = useState([]);
   const [showAlert, setShowAlert] = useState(false);
   const [status, setStatus] = useState('');
@@ -47,7 +48,7 @@ const Products = () => {
   const handleDelete = async (id) => {
     try {
       const response = await deleteDoc({
-        token: isAuthenticated().token,
+        token: user.token,
         link: '/products',
         id,
       });
