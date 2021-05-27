@@ -1,17 +1,18 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import { isAuthenticated } from '.';
+import { UserContext } from '../../pages/user-account/userContext';
 
 const ProtectedRoute = ({
   component: Component,
   restrictTo = 'admin',
   ...rest
 }) => {
+  const { user } = useContext(UserContext);
   return (
     <Route
       {...rest}
       render={(props) =>
-        isAuthenticated() && isAuthenticated().data.user.role === restrictTo ? (
+        user && user.data.role === restrictTo ? (
           <Component {...props} />
         ) : (
           <Redirect

@@ -4,13 +4,16 @@ import Routes from './Routes';
 import '../src/assets/tailwind.css';
 import GlobalStyles from './components/GlobalStyles';
 import { CartProvider } from './pages/cart/cartContext';
+import { UserProvider } from './pages/user-account/userContext';
 
 ReactDOM.render(
   <React.StrictMode>
     <GlobalStyles />
-    <CartProvider>
-      <Routes />
-    </CartProvider>
+    <UserProvider>
+      <CartProvider>
+        <Routes />
+      </CartProvider>
+    </UserProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

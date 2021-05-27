@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unknown-property */
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import Alert from '../../components/alert';
 import {
@@ -11,9 +11,11 @@ import {
   SubmitContainter,
 } from '../../components/form/FormStyles';
 import PageTitle from '../../components/PageTitle';
-import { signin, authenticate, isAuthenticated } from '../../utils/auth';
+import { signin } from '../../utils/auth';
+import { UserContext } from '../user-account/userContext';
 
 const Signin = () => {
+  const { user, authenticate } = useContext(UserContext);
   const [values, setValues] = useState({
     email: '',
     password: '',
@@ -49,14 +51,7 @@ const Signin = () => {
         });
         setShowAlert(true);
       } else {
-        authenticate(data, () => {
-          setValues({
-            email: '',
-            password: '',
-            didRedirect: true,
-            loading: false,
-          });
-        });
+        authenticate(data);
       }
     } catch (err) {
       setValues({
@@ -70,13 +65,13 @@ const Signin = () => {
 
   const performRedirect = () => {
     if (didRedirect) {
-      if (isAuthenticated() && isAuthenticated().data.user.role === 'admin') {
+      if (user && user.data.role === 'admin') {
         return <Redirect to="/admin/dashboard" />;
       } else {
         return <Redirect to="/dashboard" />;
       }
     }
-    if (isAuthenticated()) {
+    if (user) {
       return <Redirect to="/" />;
     }
   };

@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import tw from 'twin.macro';
-import { isAuthenticated, signout } from '../utils/auth';
+import { UserContext } from '../pages/user-account/userContext';
 
 const NavBarStyles = styled.nav`
   ${tw`pb-4 mx-8 my-4 border-0 border-b border-gray-500 border-solid`}
@@ -14,27 +14,35 @@ const NavBarStyles = styled.nav`
 `;
 
 const NavLink = styled(Link)`
-  ${tw`p-4 text-white no-underline rounded-md hover:text-green-500`}
+  ${tw`p-4 text-white no-underline capitalize rounded-md hover:text-green-500`}
   ${(props) => props.isactive && tw`text-green-500 bg-gray-900 shadow-md `}
 `;
 
 const SignOut = styled.span`
-  ${tw`text-white hover:text-green-500`}
+  ${tw`text-white cursor-pointer hover:text-green-500`}
 `;
 
 const NavBar = ({ history }) => {
+  const { user, signout } = useContext(UserContext);
   const navigation = () => {
-    if (isAuthenticated() === false)
+    if (user === undefined)
       return [
         { name: 'Home', href: '/' },
         { name: 'Sign In', href: '/users/signin' },
         { name: 'Sign Up', href: '/users/signup' },
         { name: 'Cart', href: '/cart' },
       ];
-    if (isAuthenticated().data.user.role === 'user') {
+    if (user && user.data.role === 'user') {
       return [
         { name: 'Home', href: '/' },
-        { name: 'Dashboard', href: '/dashboard' },
+        {
+          name: `${user.data.name || ' My Account'}`,
+          href: '/myaccount',
+          menu: [
+            { name: 'My Account', href: '/myaccount' },
+            { name: 'Orders', href: '/orders' },
+          ],
+        },
         { name: 'Cart', href: '/cart' },
       ];
     } else {
@@ -60,7 +68,7 @@ const NavBar = ({ history }) => {
           </li>
         ))}
 
-        {isAuthenticated() && (
+        {user && (
           <li>
             <SignOut onClick={() => signout(() => history.push('/'))}>
               Sign Out

@@ -5,7 +5,6 @@ import NavBar from './components/NavBar';
 import Footer from './components/Footer';
 import Signin from './pages/signin';
 import Signup from './pages/signup';
-import Dashboard from './pages/dashboard';
 import AdminDashboard from './pages/admin/dashboard';
 import ProtectedRoute from './utils/auth/ProtectedRoute';
 import Categories from './pages/admin/categories';
@@ -15,6 +14,7 @@ import Products from './pages/admin/products';
 import CreateProduct from './pages/admin/products/createProduct';
 import updateProduct from './pages/admin/products/updateProduct';
 import Cart from './pages/cart';
+import Profile from './pages/user-account';
 
 const Routes = () => {
   return (
@@ -25,10 +25,10 @@ const Routes = () => {
         <Route path="/users/signup" exact component={Signup} />
         <Route path="/users/signin" exact component={Signin} />
         <ProtectedRoute
-          path="/dashboard"
+          path="/myaccount"
           restrictTo="user"
           exact
-          component={Dashboard}
+          component={Profile}
         />
         <ProtectedRoute path="/cart" restrictTo="user" exact component={Cart} />
         <ProtectedRoute

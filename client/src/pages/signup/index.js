@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import { Redirect } from 'react-router-dom';
 import Alert from '../../components/alert';
 import {
   Form,
@@ -9,8 +10,10 @@ import {
 } from '../../components/form/FormStyles';
 import PageTitle from '../../components/PageTitle';
 import { signup } from '../../utils/auth';
+import { UserContext } from '../user-account/userContext';
 
 const Signup = () => {
+  const { authenticate, user } = useContext(UserContext);
   const [values, setValues] = useState({
     name: '',
     email: '',
@@ -18,10 +21,19 @@ const Signup = () => {
     confirmPassword: '',
     status: '',
     message: '',
+    didRedirect: false,
   });
   const [showAlert, setShowAlert] = useState(false);
 
-  const { name, email, password, confirmPassword, status, message } = values;
+  const {
+    name,
+    email,
+    password,
+    confirmPassword,
+    status,
+    message,
+    didRedirect,
+  } = values;
 
   const handleChange = (name) => (event) => {
     setValues({ ...values, [name]: event.target.value });
@@ -48,6 +60,7 @@ const Signup = () => {
           message: 'New Account is created successfully.',
         });
         setShowAlert(true);
+        authenticate(data);
       }
     } catch (err) {
       setValues({
@@ -56,6 +69,19 @@ const Signup = () => {
         message: 'Please try again.',
       });
       setShowAlert(true);
+    }
+  };
+
+  const performRedirect = () => {
+    if (didRedirect) {
+      if (user && user.data.role === 'admin') {
+        return <Redirect to="/admin/dashboard" />;
+      } else {
+        return <Redirect to="/" />;
+      }
+    }
+    if (user) {
+      return <Redirect to="/" />;
     }
   };
 
@@ -138,6 +164,7 @@ const Signup = () => {
           </SubmitButton>
         </SubmitContainter>
       </Form>
+      {performRedirect()}
     </FormWrapper>
   );
 };

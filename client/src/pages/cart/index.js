@@ -3,7 +3,6 @@ import CartItemCard from '../../components/card/CartItemCard';
 import PageTitle from '../../components/PageTitle';
 import StripeCheckout from '../../components/StripeCheckout';
 import { CartContext } from './cartContext';
-import { isAuthenticated } from '../../utils/auth';
 import {
   ArrowRight,
   BillDetails,
@@ -15,9 +14,11 @@ import {
   EmptyCartIcon,
   OrderSummary,
 } from './cartStyles';
+import { UserContext } from '../user-account/userContext';
 
 const Cart = () => {
   const { cart } = useContext(CartContext);
+  const { user } = useContext(UserContext);
   const [code, setCode] = useState('');
   const [discount, setDiscount] = useState(0);
   const [shipping, setShipping] = useState(30);
@@ -66,12 +67,11 @@ const Cart = () => {
     total: totalCost,
   };
 
-  const user = isAuthenticated();
   const customer = {
     token: user.token,
-    name: user.data.user.name,
-    email: user.data.user.email,
-    id: user.data.user.id,
+    name: user.data.name,
+    email: user.data.email,
+    id: user.data.id,
   };
 
   return (
