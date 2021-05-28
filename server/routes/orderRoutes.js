@@ -21,8 +21,6 @@ router.use(restrictTo('user'));
 router.route('/').get(getAllOrders).post(createOrder);
 router.get('/:id', getOrder);
 
-router.use(restrictTo('admin'));
-
 router.get('/status', getOrderStatus);
 router.patch('/status/:orderId', updateOrderStatus);
 

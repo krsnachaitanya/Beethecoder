@@ -37,7 +37,8 @@ export const CartProvider = (props) => {
   };
 
   const clearCart = () =>
-    typeof window !== 'undefined' && localStorage.removeItem('cart');
+    typeof window !== 'undefined' &&
+    (localStorage.removeItem('cart'), setCart([]));
 
   return (
     <CartContext.Provider value={{ cart, updateCart, clearCart }}>

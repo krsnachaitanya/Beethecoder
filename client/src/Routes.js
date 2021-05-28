@@ -15,6 +15,7 @@ import CreateProduct from './pages/admin/products/createProduct';
 import updateProduct from './pages/admin/products/updateProduct';
 import Cart from './pages/cart';
 import Profile from './pages/user-account';
+import OrderStatus from './components/OrderStatus';
 
 const Routes = () => {
   return (
@@ -31,6 +32,12 @@ const Routes = () => {
           component={Profile}
         />
         <ProtectedRoute path="/cart" restrictTo="user" exact component={Cart} />
+        <ProtectedRoute
+          path="/order/status"
+          restrictTo="user"
+          exact
+          component={OrderStatus}
+        />
         <ProtectedRoute
           path="/admin/dashboard"
           exact

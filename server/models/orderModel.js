@@ -23,7 +23,14 @@ const orderSchema = new mongoose.Schema(
     status: {
       type: String,
       default: 'received',
-      enum: ['cancelled', 'delivered', 'shipped', 'processing', 'received'],
+      enum: [
+        'cancelled',
+        'delivered',
+        'shipped',
+        'processing',
+        'paid',
+        'received',
+      ],
     },
     updated: Date,
     customer: {
@@ -31,7 +38,6 @@ const orderSchema = new mongoose.Schema(
       ref: 'User',
       required: [true, 'You can not order with out user'],
     },
-    paid: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

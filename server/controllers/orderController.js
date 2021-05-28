@@ -40,10 +40,13 @@ exports.getOrderStatus = catchAsync(async (req, res, next) => {
 });
 
 exports.updateOrderStatus = catchAsync(async (req, res, next) => {
-  const order = await Order.updateOne({
-    _id: req.params.orderId,
-    $set: { status: req.body.status },
-  });
+  const order = await Order.findByIdAndUpdate(
+    req.params.orderId,
+    { status: req.body.status },
+    {
+      new: true,
+    }
+  );
 
   res.status(200).json({ status: 'success', data: { order } });
 });

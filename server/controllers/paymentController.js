@@ -31,9 +31,15 @@ exports.stripePayment = catchAsync(async (req, res, next) => {
     shipping_address_collection: {
       allowed_countries: ['IN'],
     },
-    success_url: `http://localhost:3000/checkout/stripe?success=true`,
-    cancel_url: `http://localhost:3000/checkout/stripe?canceled=true`,
+    success_url: `http://localhost:3000/order/status?paid=true`,
+    cancel_url: `http://localhost:3000/order/status?paid=false`,
   });
   // console.log(session);
   res.json({ id: session.id });
+});
+
+exports.getPaymentStatus = catchAsync(async (req, res, next) => {
+  const session = await stripe.checkout.sessions.retrieve(req.params.id);
+  const payment = await stripe.paymentIntents.retrieve(session.payment_intent);
+  res.json({ paymentStatus: payment.status });
 });
