@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Home from './pages/home';
-import NavBar from './components/NavBar';
+import NavBar from './components/NavBar/index';
 import Footer from './components/Footer';
 import Signin from './pages/signin';
 import Signup from './pages/signup';
@@ -25,7 +25,7 @@ const Routes = () => {
         <Route path="/users/signup" exact component={Signup} />
         <Route path="/users/signin" exact component={Signin} />
         <ProtectedRoute
-          path="/myaccount"
+          path="/account"
           restrictTo="user"
           exact
           component={Profile}

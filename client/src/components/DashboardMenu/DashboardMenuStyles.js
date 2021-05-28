@@ -8,9 +8,9 @@ export const DashboardMenuWrapper = styled.div`
 `;
 
 export const MenuButton = styled.div`
-  ${tw`relative inline-flex items-center justify-center h-10 px-4 py-2 text-sm font-bold text-white bg-green-500 rounded-md cursor-pointer bg-opacity-20 hover:bg-opacity-30`}
+  ${tw`inline-flex items-center justify-center h-10 px-4 py-2 text-sm font-bold text-white bg-green-500 rounded-md cursor-pointer bg-opacity-20 hover:bg-opacity-30`}
 `;
-export const Menu = styled.div`
+export const MenuStyles = styled.div`
   ${tw`relative`}
 `;
 
@@ -18,8 +18,11 @@ export const Icon = styled(ChevronDownIcon)`
   ${tw`w-5 h-5 ml-2 -mr-1 text-green-200 hover:text-green-100`}
 `;
 
-export const MenuOptions = styled.ul`
-  ${tw`absolute top-0 right-0 z-10 flex flex-col w-56 p-2 transform bg-black rounded-md shadow-lg cursor-default translate-y-9`}
+export const MenuOptions = styled.div`
+  ${tw`absolute top-0 right-0 z-10 w-56 pt-8`}
+  ul {
+    ${tw`flex flex-col p-2 bg-black rounded-md shadow-lg cursor-default `}
+  }
 `;
 export const MenuItem = styled.li`
   ${tw`list-none`}
