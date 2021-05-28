@@ -1,13 +1,20 @@
 import React, { useContext } from 'react';
 import { withRouter } from 'react-router-dom';
-
 import { UserContext } from '../../pages/user-account/userContext';
+import { CartContext } from '../../pages/cart/cartContext';
 import { navData } from './navdata';
-import { NavBarStyles, NavLink } from './styles';
+import {
+  NavBarStyles,
+  NavLink,
+  CartIcon,
+  NavLinkIcon,
+  CartPill,
+} from './styles';
 import UserMenu from './UserMenu';
 
 const NavBar = ({ history }) => {
   const { user } = useContext(UserContext);
+  const { cart } = useContext(CartContext);
 
   return (
     <NavBarStyles as="nav">
@@ -32,6 +39,18 @@ const NavBar = ({ history }) => {
               </NavLink>
             </li>
           )
+        )}
+        {user?.data.role === 'user' && (
+          <li>
+            <NavLinkIcon
+              to="/cart"
+              isactive={history.location.pathname === '/cart' ? 1 : undefined}
+            >
+              {cart?.length && <CartPill>{cart.length}</CartPill>}
+              <CartIcon />
+              <span>Cart</span>
+            </NavLinkIcon>
+          </li>
         )}
       </ul>
     </NavBarStyles>

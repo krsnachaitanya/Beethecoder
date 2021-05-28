@@ -4,7 +4,6 @@ export const navData = (user) => {
       { name: 'Home', href: '/' },
       { name: 'Sign In', href: '/users/signin' },
       { name: 'Sign Up', href: '/users/signup' },
-      { name: 'Cart', href: '/cart' },
     ];
   if (user && user.data.role === 'user') {
     return [
@@ -19,7 +18,6 @@ export const navData = (user) => {
           { name: 'Notifications', href: '/account/notifications' },
         ],
       },
-      { name: 'Cart', href: '/cart' },
     ];
   } else {
     return [

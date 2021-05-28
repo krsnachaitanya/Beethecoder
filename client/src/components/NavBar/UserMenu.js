@@ -18,9 +18,9 @@ const UserMenu = ({ menu, href, name }) => {
       onMouseEnter={() => setIsOpen(true)}
       onMouseLeave={() => setIsOpen(false)}
     >
-      <MenuLink to={href} isactive={isCurrActive}>
+      <MenuLink to={href} isactive={isCurrActive || isOpen}>
         <span>{name}</span>
-        <Icon isactive={isCurrActive} />
+        <Icon isactive={isCurrActive || isOpen} />
       </MenuLink>
       {isOpen && (
         <NavLinkMenu>
