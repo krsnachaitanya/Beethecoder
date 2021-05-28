@@ -22,11 +22,10 @@ const Signin = () => {
     status: '',
     message: '',
     loading: false,
-    didRedirect: false,
   });
   const [showAlert, setShowAlert] = useState(false);
 
-  const { email, password, status, message, didRedirect } = values;
+  const { email, password, status, message } = values;
 
   const handleChange = (name) => (event) => {
     setValues({ ...values, [name]: event.target.value });
@@ -64,15 +63,12 @@ const Signin = () => {
   };
 
   const performRedirect = () => {
-    if (didRedirect) {
-      if (user && user.data.role === 'admin') {
+    if (user) {
+      if (user.data.role === 'admin') {
         return <Redirect to="/admin/dashboard" />;
       } else {
-        return <Redirect to="/dashboard" />;
+        return <Redirect to="/" />;
       }
-    }
-    if (user) {
-      return <Redirect to="/" />;
     }
   };
 

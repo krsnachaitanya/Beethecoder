@@ -1,30 +1,26 @@
 import React, { useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import { UserContext } from '../../pages/user-account/userContext';
 import { MenuItem, MenuLink, NavLinkMenu, Icon } from './styles';
 
-const UserMenu = ({ pathname, menu, href, name }) => {
+const UserMenu = ({ menu, href, name }) => {
   const { signout } = useContext(UserContext);
   const [isOpen, setIsOpen] = useState(false);
+  let history = useHistory();
+  const isCurrActive =
+    history.location.pathname.split('/')[1] === href.split('/')[1]
+      ? 1
+      : undefined;
 
   return (
     <li
       onMouseEnter={() => setIsOpen(true)}
       onMouseLeave={() => setIsOpen(false)}
     >
-      <MenuLink
-        to={href}
-        isactive={pathname.split('/')[1] === href.split('/')[1] ? 1 : undefined}
-      >
+      <MenuLink to={href} isactive={isCurrActive}>
         <span>{name}</span>
-        <Icon
-          isactive={
-            isOpen || pathname.split('/')[1] === href.split('/')[1]
-              ? 1
-              : undefined
-          }
-        />
+        <Icon isactive={isCurrActive} />
       </MenuLink>
       {isOpen && (
         <NavLinkMenu>

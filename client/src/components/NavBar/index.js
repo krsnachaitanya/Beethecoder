@@ -15,7 +15,7 @@ const NavBar = ({ history }) => {
         {navData(user).map((link, index) =>
           link.menu ? (
             <UserMenu
-              pathname={history.location.pathname}
+              key={index}
               href={link.href}
               name={link.name}
               menu={link.menu}
