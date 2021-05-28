@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import { api } from '../backend';
+import { createDoc } from '../utils/admin/adminapicall';
 
 const stripePromise = loadStripe(
   'pk_test_51IvRaJSHZ6NpgVqR1cO067Uc2d0ybQa6H67vJ6kgsycbPbYiiNzcFz08YC8WFzvByET3zNtcByWb7VbfghUlT0dN00v1J6lJZP'
@@ -12,7 +13,7 @@ const Message = ({ message }) => (
   </section>
 );
 
-const StripeCheckout = ({ customer, order }) => {
+const StripeCheckout = ({ order, customer }) => {
   const [message, setMessage] = useState('');
 
   useEffect(() => {
@@ -28,11 +29,6 @@ const StripeCheckout = ({ customer, order }) => {
     }
   }, []);
 
-  const data = {
-    customer,
-    order,
-  };
-
   const handleClick = async () => {
     const stripe = await stripePromise;
     const response = await fetch(`${api}/checkout/stripe`, {
@@ -42,9 +38,25 @@ const StripeCheckout = ({ customer, order }) => {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${customer.token}`,
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify({ order, customer }),
     });
     const session = await response.json();
+
+    if (session.id) {
+      const createOrder = await createDoc({
+        data: { ...order, sessionId: session.id, customer: customer.id },
+        token: customer.token,
+        json: true,
+        link: '/orders',
+      });
+      if (createOrder.status !== 'success')
+        throw new Error(createOrder.message);
+      localStorage.setItem(
+        'recentOrder',
+        JSON.stringify({ ...createOrder.data.order })
+      );
+    }
+
     // When the customer clicks on the button, redirect them to Checkout.
     const result = await stripe.redirectToCheckout({
       sessionId: session.id,

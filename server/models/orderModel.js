@@ -7,14 +7,18 @@ const productCartSchema = new mongoose.Schema({
   },
   name: String,
   quantity: Number,
-  Price: Number,
+  price: Number,
+  total: Number,
 });
 
 const orderSchema = new mongoose.Schema(
   {
     products: [productCartSchema],
-    transactionId: {},
-    amount: Number,
+    sessionId: String,
+    total: Number,
+    discount: Number,
+    shipping: Number,
+    subtotal: Number,
     address: String,
     status: {
       type: String,
@@ -22,11 +26,12 @@ const orderSchema = new mongoose.Schema(
       enum: ['cancelled', 'delivered', 'shipped', 'processing', 'received'],
     },
     updated: Date,
-    user: {
+    customer: {
       type: mongoose.Schema.ObjectId,
       ref: 'User',
       required: [true, 'You can not order with out user'],
     },
+    paid: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

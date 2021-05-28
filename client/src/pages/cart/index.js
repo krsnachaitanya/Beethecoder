@@ -71,13 +71,13 @@ const Cart = () => {
       price: item.price,
       quantity: item.quantity,
       total: item.total,
-      id: item._id,
-      category: { id: item.category._id, name: item.category.name },
+      product: item._id,
     })),
     discount,
     shipping,
     subtotal: subtotal(),
     total: totalCost,
+    customer: user.data.id,
   };
 
   const customer = {

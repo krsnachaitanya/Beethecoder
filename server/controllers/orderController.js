@@ -16,7 +16,6 @@ exports.getAllOrders = catchAsync(async (req, res, next) => {
 });
 
 exports.createOrder = catchAsync(async (req, res, next) => {
-  req.body.order.user = req.user;
   const order = await Order.create(req.body);
   if (!order) return next(new AppError('Order not placed', 400));
   res.status(200).json({ status: 'success', data: { order } });

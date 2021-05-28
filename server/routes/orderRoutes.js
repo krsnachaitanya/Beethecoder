@@ -10,18 +10,15 @@ const {
   getOrderStatus,
   updateOrderStatus,
 } = require('../controllers/orderController');
-const { updateStock } = require('../controllers/productController');
-const { pushOrderInPurchaseList } = require('../controllers/userController');
+// const { updateStock } = require('../controllers/productController');
+// const { pushOrderInPurchaseList } = require('../controllers/userController');
 
 const router = express();
 
 router.use(protect);
 router.use(restrictTo('user'));
 
-router
-  .route('/')
-  .get(getAllOrders)
-  .post(pushOrderInPurchaseList, updateStock, createOrder);
+router.route('/').get(getAllOrders).post(createOrder);
 router.get('/:id', getOrder);
 
 router.use(restrictTo('admin'));
