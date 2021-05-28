@@ -6,13 +6,16 @@ import { CartContext } from './cartContext';
 import {
   ArrowRight,
   BillDetails,
+  Cancel,
   CartList,
   CartStyles,
   ContinueShopping,
+  CouponApplied,
   CouponCode,
   EmptyCart,
   EmptyCartIcon,
   OrderSummary,
+  RupeeIcon,
 } from './cartStyles';
 import { UserContext } from '../user-account/userContext';
 
@@ -22,6 +25,7 @@ const Cart = () => {
   const [code, setCode] = useState('');
   const [discount, setDiscount] = useState(0);
   const [shipping, setShipping] = useState(30);
+  const [isCouponApplied, setIsCouponApplied] = useState(false);
 
   const couponCodes = {
     bogo: 100,
@@ -42,11 +46,20 @@ const Cart = () => {
 
   const applyDiscount = (event) => {
     event.preventDefault();
+
     if (couponCodes[code]) {
       code === 'freeShipping'
-        ? (setShipping(0), setDiscount(0))
-        : (setDiscount(couponCodes[code]), setShipping(30));
+        ? (setShipping(0), setDiscount(0), setIsCouponApplied(true))
+        : (setDiscount(couponCodes[code]),
+          setShipping(30),
+          setIsCouponApplied(true));
     }
+  };
+
+  const removeCoupon = () => {
+    setIsCouponApplied(false);
+    setDiscount(0);
+    setShipping(30);
   };
 
   const totalCost = subtotal() + shipping - discount;
@@ -101,19 +114,37 @@ const Cart = () => {
             <h3>Order Summary</h3>
             <CouponCode>
               <label htmlFor="coupon-code">Coupon Code</label>
-              <div>
-                <input
-                  type="text"
-                  name="coupon-code"
-                  id="coupon-code"
-                  placeholder="Enter code here"
-                  onChange={handleChange}
-                  value={code}
-                />
-                <button type="submit" onClick={applyDiscount}>
-                  Apply
-                </button>
-              </div>
+              {!isCouponApplied ? (
+                <div>
+                  <input
+                    type="text"
+                    name="coupon-code"
+                    id="coupon-code"
+                    placeholder="Enter code here"
+                    onChange={handleChange}
+                    value={code}
+                    autoComplete="true"
+                  />
+                  <button type="submit" onClick={applyDiscount}>
+                    Apply
+                  </button>
+                </div>
+              ) : (
+                <CouponApplied>
+                  <div>
+                    <div>
+                      <RupeeIcon />
+                    </div>
+                    <p>
+                      You saved ₹{couponCodes[code]}
+                      <span>Coupon Applied</span>
+                    </p>
+                  </div>
+                  <div>
+                    <Cancel onClick={removeCoupon} />
+                  </div>
+                </CouponApplied>
+              )}
             </CouponCode>
             <BillDetails>
               <p>

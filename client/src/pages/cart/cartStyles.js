@@ -2,9 +2,11 @@ import { Link } from 'react-router-dom';
 import {
   ShoppingCartIcon,
   ArrowNarrowRightIcon,
+  XCircleIcon,
 } from '@heroicons/react/outline';
 import styled from 'styled-components';
 import tw from 'twin.macro';
+import { CurrencyRupeeIcon } from '@heroicons/react/solid';
 
 // ** Empty Cart Styles
 
@@ -35,7 +37,10 @@ export const EmptyCart = styled.div`
 // ** Cart Styles
 
 export const CartStyles = styled.div`
-  ${tw`flex flex-wrap gap-6 m-4 sm:m-8 `}
+  ${tw`grid gap-4 m-4 sm:m-8`}
+  @media (min-width: 1024px) {
+    grid-template-columns: 1fr minmax(18rem, 30%);
+  }
 `;
 export const CartList = styled.div`
   ${tw`flex-1 p-6 bg-gray-700 rounded-md sm:p-8`}
@@ -64,6 +69,27 @@ export const CouponCode = styled.form`
       ${tw`text-base text-gray-400`}
     }
   }
+`;
+
+export const CouponApplied = styled.div`
+  ${tw`flex items-center justify-between gap-2 -mb-0.5`}
+  &>div {
+    ${tw`flex items-center gap-2`}
+    p {
+      ${tw`m-0 font-bold`}
+      span {
+        ${tw`block text-sm font-normal text-gray-300`}
+      }
+    }
+  }
+`;
+
+export const RupeeIcon = styled(CurrencyRupeeIcon)`
+  ${tw`w-10 h-10 text-green-500 bg-white rounded-full`}
+`;
+
+export const Cancel = styled(XCircleIcon)`
+  ${tw`w-8 h-8 text-red-400 rounded-full cursor-pointer`}
 `;
 
 export const BillDetails = styled.div`

@@ -40,13 +40,13 @@ const NavBar = ({ history }) => {
             </li>
           )
         )}
-        {user?.data.role === 'user' && (
+        {user?.data.role !== 'admin' && (
           <li>
             <NavLinkIcon
               to="/cart"
               isactive={history.location.pathname === '/cart' ? 1 : undefined}
             >
-              {cart?.length && <CartPill>{cart.length}</CartPill>}
+              {cart?.length > 0 && <CartPill>{cart.length}</CartPill>}
               <CartIcon />
               <span>Cart</span>
             </NavLinkIcon>
