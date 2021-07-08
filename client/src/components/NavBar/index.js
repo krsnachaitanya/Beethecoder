@@ -40,7 +40,7 @@ const NavBar = ({ history }) => {
             </li>
           )
         )}
-        {user?.data.role !== 'admin' && (
+        {user?.data?.role !== 'admin' && (
           <li>
             <NavLinkIcon
               to="/cart"

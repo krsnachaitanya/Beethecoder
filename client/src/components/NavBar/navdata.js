@@ -5,11 +5,11 @@ export const navData = (user) => {
       { name: 'Sign In', href: '/users/signin' },
       { name: 'Sign Up', href: '/users/signup' },
     ];
-  if (user && user.data.role === 'user') {
+  if (user && user.data?.role === 'user') {
     return [
       { name: 'Home', href: '/' },
       {
-        name: `${user.data.name || ' My Account'}`,
+        name: `${user.data?.name || ' My Account'}`,
         href: '/account',
         menu: [
           { name: 'My Account', href: '/account' },
@@ -22,7 +22,7 @@ export const navData = (user) => {
   } else {
     return [
       {
-        name: `${user.data.name || ' My Account'}`,
+        name: `${user.data?.name || ' My Account'}`,
         href: '/admin-account',
         menu: [
           { name: 'My Account', href: '/admin-account' },
